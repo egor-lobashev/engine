@@ -15,7 +15,7 @@ int main()
 
     data_storage.addObject(player);
 
-    graphics_manager.draw_all(window);
+    graphics_manager.draw_all(window , data_storage.getAll());
     window.display();
 
     sf::Event event;

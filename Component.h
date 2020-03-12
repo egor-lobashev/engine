@@ -26,6 +26,7 @@ public:
     void draw() {}
     void loadTexture(std::string) {}
     void makeSprite() {}
+    sf::Sprite* getSprite() {}
 private:
     sf::Texture texture;
     sf::Sprite sprite;
