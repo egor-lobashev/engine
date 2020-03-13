@@ -23,10 +23,31 @@ public:
 class Renderer: public Component
 {
 public:
-    void draw() {}
-    void loadTexture(std::string) {}
-    void makeSprite() {}
-    sf::Sprite* getSprite() {}
+    int x = 0;
+    int y = 0;
+
+    void draw(sf::RenderWindow& window)
+    {
+        sprite.setPosition(x, y);
+        window.draw(sprite);
+    }
+
+    void loadTexture(std::string texturename) 
+    {
+        if (!texture.loadFromFile(texturename))
+            return -1;
+    }
+
+    void createSprite()
+    {
+        sprite.setTexture(texture);
+    }
+
+    sf::Sprite* getSprite()
+    {
+        return sf::Sprite* result = &sprite;
+    }
+
 private:
     sf::Texture texture;
     sf::Sprite sprite;
