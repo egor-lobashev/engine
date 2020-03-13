@@ -23,10 +23,8 @@ public:
 class Renderer: public Component
 {
 public:
-    int x = 0;
-    int y = 0;
 
-    void draw(sf::RenderWindow& window)
+    void draw(sf::RenderWindow& window, int x, int y)
     {
         sprite.setPosition(x, y);
         window.draw(sprite);
