@@ -31,6 +31,11 @@ public:
         window.display();
     }
 
+    std::vector getSpriteposition()
+    {
+        return sprite.getPosition();
+    }
+
     void loadTexture(std::string texturename) 
     {
         texture.loadFromFile(texturename);
