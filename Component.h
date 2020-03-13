@@ -30,12 +30,12 @@ public:
     {
         sprite.setPosition(x, y);
         window.draw(sprite);
+        window.display();
     }
 
     void loadTexture(std::string texturename) 
     {
-        if (!texture.loadFromFile(texturename))
-            return -1;
+        texture.loadFromFile(texturename);
     }
 
     void createSprite()
@@ -45,7 +45,7 @@ public:
 
     sf::Sprite* getSprite()
     {
-        return sf::Sprite* result = &sprite;
+        return &sprite;
     }
 
 private:
