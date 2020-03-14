@@ -9,8 +9,9 @@ class GraphicsManager {
     public:
         void drawAll(sf::RenderWindow& window , std::vector <GameObject*> all_objects){
 
-            for (auto object : all_objects){
+            for (GameObject* object : all_objects){
                 if( object->getComponent<Renderer>() != nullptr ){
+                    std::cout << "doofwelp\n";
                     object->getComponent<Renderer>()->draw(window);
 
                 }

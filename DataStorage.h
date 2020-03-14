@@ -35,6 +35,6 @@ class DataStorage{
 
     private:
 
-    std::map<std::string,GameObject> objects;
+        std::map<std::string, GameObject> objects;
 
 };

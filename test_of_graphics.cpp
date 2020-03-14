@@ -15,7 +15,7 @@ int main()
 
     data_storage.addObject("player", player);
 
-    graphics_manager.drawAll(window, data_storage.getAll());
+    //graphics_manager.drawAll(window, data_storage.getAll());
 
     // sf::Event event;
     // while (window.isOpen())
