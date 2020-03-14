@@ -6,7 +6,7 @@ int main()
 {
     sf::RenderWindow window(sf::VideoMode(600, 600), "Some game");
     DataStorage data_storage;
-    GraphicsManager graphics_manager;
+    GraphicsManager* graphics_manager = GraphicsManager::getInspance();
 
     GameObject player;
     player.addComponent<Renderer>();
@@ -18,7 +18,7 @@ int main()
     data_storage.addObject("player", &player);
 
     window.clear(sf::Color(0,0,0));
-    graphics_manager.drawAll(window, data_storage.getAll());
+    graphics_manager->drawAll(window);
 
     sf::Event event;
     while (window.isOpen())

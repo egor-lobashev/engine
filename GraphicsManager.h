@@ -7,9 +7,16 @@
 
 class GraphicsManager {
     public:
-        void drawAll(sf::RenderWindow& window , std::vector <GameObject*> all_objects){
+        static GraphicsManager* getInspance()
+        {
+            if (!instance)
+                instance = new GraphicsManager();
+            return instance;
+        }
+        
+        void drawAll(sf::RenderWindow& window){
 
-            for (GameObject* object : all_objects){
+            for (GameObject* object : drawable_objects){
                 if( object->getComponent<Renderer>() != nullptr ){
                     object->getComponent<Renderer>()->draw(window);
 
@@ -20,6 +27,11 @@ class GraphicsManager {
         }
 
     private:
+        GraphicsManager() {}
+        static GraphicsManager* instance;
+        std::vector<GameObject*> drawable_objects;
 };
+
+GraphicsManager* GraphicsManager::instance = nullptr;
 
 #endif
