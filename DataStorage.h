@@ -6,9 +6,9 @@
 class DataStorage{
     public:
 
-        bool addObject(std::string object_name){
+        bool addObject(std::string object_name, GameObject& object){
 
-            objects[object_name];
+            objects[object_name] = object;
             return true;
         }
         bool deleteObject(std::string object_name){
@@ -22,11 +22,11 @@ class DataStorage{
             return objects[object_name];
         }
 
-        std::vector <GameObject>& getAll(){
+        std::vector <GameObject*> getAll(){
             
-            std::vector <GameObject> output_vector;
+            std::vector <GameObject*> output_vector;
             for(auto item : objects){
-                output_vector.push_back(item.second);
+                output_vector.push_back(&item.second);
             }
             return output_vector;
 

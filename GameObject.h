@@ -16,7 +16,10 @@ public:
             components.push_back(new T);
             return true;
         }
-        return false;
+        catch(...)
+        {
+            return false;
+        }
     }
 
     template <typename T>

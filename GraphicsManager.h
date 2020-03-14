@@ -3,15 +3,15 @@
 
 
 #include <SFML/Graphics.hpp>
+#include <iostream>
 
 class GraphicsManager {
     public:
-        void DrawAll(sf::RenderWindow& window , std::vector <GameObject*> all_objects){
+        void drawAll(sf::RenderWindow& window , std::vector <GameObject*> all_objects){
 
             for (auto object : all_objects){
-                if( object -> getComponent<Renderer>() != nullptr ){
-
-                    window.draw( *( object -> getComponent<Renderer>() -> getSprite() )  );
+                if( object->getComponent<Renderer>() != nullptr ){
+                    object->getComponent<Renderer>()->draw(window);
 
                 }
             }

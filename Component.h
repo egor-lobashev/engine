@@ -23,27 +23,32 @@ public:
 class Renderer: public Component
 {
 public:
-
-    void draw(sf::RenderWindow& window, int x, int y)
+    Renderer()
     {
-        sprite.setPosition(x, y);
-        window.draw(sprite);
-        window.display();
+        name = typeid(*this).name();
     }
 
+    void draw(sf::RenderWindow& window)
+    {
+        window.draw(sprite);
+    }
+
+    /*
     std::vector getSpriteposition()
     {
         return sprite.getPosition();
     }
+    */
 
     void loadTexture(std::string texturename) 
     {
         texture.loadFromFile(texturename);
     }
 
-    void createSprite()
+    void createSprite(int x, int y)
     {
         sprite.setTexture(texture);
+        sprite.setPosition(x, y);
     }
 
     sf::Sprite* getSprite()

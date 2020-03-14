@@ -10,24 +10,23 @@ int main()
 
     GameObject player;
     player.addComponent<Renderer>();
-    player.getComponent<Renderer>().loadTexture("image.png");
-    player.getComponent<Renderer>().makeSprite();
+    player.getComponent<Renderer>()->loadTexture("image.png");
+    player.getComponent<Renderer>()->createSprite(10, 10);
 
-    data_storage.addObject(player);
+    data_storage.addObject("player", player);
 
-    graphics_manager.draw_all(window , data_storage.getAll());
-    window.display();
+    graphics_manager.drawAll(window, data_storage.getAll());
 
-    sf::Event event;
-    while (window.isOpen())
-	{
-        while (window.pollEvent(event))
-		{
-			if (event.type == sf::Event::Closed){
-				window.close();
-			}	   
-		}
-    }
+    // sf::Event event;
+    // while (window.isOpen())
+	// {
+    //     while (window.pollEvent(event))
+	// 	{
+	// 		if (event.type == sf::Event::Closed){
+	// 			window.close();
+	// 		}	   
+	// 	}
+    // }
 
     return 0;
 }
