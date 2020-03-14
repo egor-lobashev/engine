@@ -6,6 +6,7 @@
 #include <map>
 #include <vector>
 #include "GameObject.h"
+#include "GraphicsManager.h"
 
 class DataStorage{
     public:
@@ -20,6 +21,7 @@ class DataStorage{
 
         bool addObject(std::string object_name , GameObject* obj){
 
+            obj->id_in_data_storage = object_name;
             if(map_of_game_objects[object_name] = obj){
                 return true;
             }

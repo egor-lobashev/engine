@@ -16,6 +16,7 @@ int main()
     player.position[1] = 20;
 
     data_storage.addObject("player", &player);
+    player.removeComponent<Renderer>();
 
     window.clear(sf::Color(0,0,0));
     graphics_manager->drawAll(window);

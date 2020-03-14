@@ -5,33 +5,18 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
+class GameObject;
+
 class GraphicsManager {
     public:
-        static GraphicsManager* getInspance()
-        {
-            if (!instance)
-                instance = new GraphicsManager();
-            return instance;
-        }
-        
-        void drawAll(sf::RenderWindow& window){
-
-            for (GameObject* object : drawable_objects){
-                if( object->getComponent<Renderer>() != nullptr ){
-                    object->getComponent<Renderer>()->draw(window);
-
-                }
-            }
-
-            window.display();
-        }
-
+        static GraphicsManager* getInspance();
+        void drawAll(sf::RenderWindow& window);
+        bool addObject(std::string object_name , GameObject* obj);
+        bool deleteObject(std::string object_name);
     private:
         GraphicsManager() {}
         static GraphicsManager* instance;
-        std::vector<GameObject*> drawable_objects;
+        std::map<std::string,GameObject*> drawable_objects;
 };
-
-GraphicsManager* GraphicsManager::instance = nullptr;
 
 #endif
