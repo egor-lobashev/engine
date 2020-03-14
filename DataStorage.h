@@ -52,7 +52,7 @@ class DataStorage{
 
     private:
 
-    std::map<std::string,GameObject*> map_of_game_objects;
+        std::map<std::string,GameObject*> map_of_game_objects;
 
 };
 

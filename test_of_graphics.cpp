@@ -15,6 +15,7 @@ int main()
 
     data_storage.addObject("player", &player);
 
+    window.clear(sf::Color(0,0,0));
     graphics_manager.drawAll(window, data_storage.getAll());
 
     sf::Event event;
