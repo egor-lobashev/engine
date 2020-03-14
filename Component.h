@@ -4,10 +4,13 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 
+class GameObject;
+
 class Component
 {
 public:
     std::string name;
+    GameObject* owner;
 };
 
 class TestType: public Component

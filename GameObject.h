@@ -14,6 +14,7 @@ public:
         try
         {
             components.push_back(new T);
+            components[components.size() - 1]->owner = this;
             return true;
         }
         catch(...)
