@@ -13,20 +13,21 @@ int main()
     player.getComponent<Renderer>()->loadTexture("image.png");
     player.getComponent<Renderer>()->createSprite(10, 10);
 
-    data_storage.addObject("player", player);
+    data_storage.addObject("player", &player);
 
-    //graphics_manager.drawAll(window, data_storage.getAll());
+    window.clear(sf::Color(0,0,0));
+    graphics_manager.drawAll(window, data_storage.getAll());
 
-    // sf::Event event;
-    // while (window.isOpen())
-	// {
-    //     while (window.pollEvent(event))
-	// 	{
-	// 		if (event.type == sf::Event::Closed){
-	// 			window.close();
-	// 		}	   
-	// 	}
-    // }
+    sf::Event event;
+    while (window.isOpen())
+	{
+        while (window.pollEvent(event))
+		{
+			if (event.type == sf::Event::Closed){
+				window.close();
+			}	   
+		}
+    }
 
     return 0;
 }

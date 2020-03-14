@@ -11,7 +11,6 @@ class GraphicsManager {
 
             for (GameObject* object : all_objects){
                 if( object->getComponent<Renderer>() != nullptr ){
-                    std::cout << "doofwelp\n";
                     object->getComponent<Renderer>()->draw(window);
 
                 }
