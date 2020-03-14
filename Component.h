@@ -13,51 +13,14 @@ public:
     GameObject* owner;
 };
 
-class TestType: public Component
-{
-public:
-    TestType()
-    {
-        name = typeid(*this).name();
-    }
-    std::string test_string = "it works :)";
-};
-
 class Renderer: public Component
 {
 public:
-    Renderer()
-    {
-        name = typeid(*this).name();
-    }
-
-    void draw(sf::RenderWindow& window)
-    {
-        window.draw(sprite);
-    }
-
-    /*
-    std::vector getSpriteposition()
-    {
-        return sprite.getPosition();
-    }
-    */
-
-    void loadTexture(std::string texturename) 
-    {
-        texture.loadFromFile(texturename);
-    }
-
-    void createSprite(int x, int y)
-    {
-        sprite.setTexture(texture);
-        sprite.setPosition(x, y);
-    }
-
-    sf::Sprite* getSprite()
-    {
-        return &sprite;
-    }
+    Renderer();
+    void draw(sf::RenderWindow& window);
+    void loadTexture(std::string texturename);
+    void createSprite();
+    sf::Sprite* getSprite();
 
 private:
     sf::Texture texture;

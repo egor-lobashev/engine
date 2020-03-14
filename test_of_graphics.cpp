@@ -11,7 +11,9 @@ int main()
     GameObject player;
     player.addComponent<Renderer>();
     player.getComponent<Renderer>()->loadTexture("image.png");
-    player.getComponent<Renderer>()->createSprite(10, 10);
+    player.getComponent<Renderer>()->createSprite();
+    player.position[0] = 400;
+    player.position[1] = 20;
 
     data_storage.addObject("player", &player);
 
@@ -22,11 +24,12 @@ int main()
     while (window.isOpen())
 	{
         while (window.pollEvent(event))
-		{
-			if (event.type == sf::Event::Closed){
-				window.close();
-			}	   
-		}
+	    {
+            if (event.type == sf::Event::Closed){
+                window.close();
+            }	   
+	    }
+    
     }
 
     return 0;

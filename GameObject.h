@@ -1,13 +1,15 @@
 #ifndef __GAME_OBJECT__
 #define __GAME_OBJECT__
 
-#include "Component.h"
 #include <string>
 #include <vector>
+#include "Component.h"
 
 class GameObject
 {
 public:
+    float position[2];
+
     template <typename T>
     bool addComponent()
     {
