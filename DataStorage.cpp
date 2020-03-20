@@ -8,15 +8,29 @@
 
 DataStorage* DataStorage::sample = nullptr;
 
+
+
+DataStorageDistructor DataStorage::distructor;
+
+DataStorageDistructor::~DataStorageDistructor(){
+        delete sample;
+};
+
+void DataStorageDistructor::initialize(DataStorage* tmpsample){
+
+    sample = tmpsample;
+};  
+
 DataStorage* DataStorage::getSample(){
     
-    if(!sample)
+    if(!sample){
         sample = new DataStorage();
+        distructor.initialize(sample);
+    }
     return sample;
-}
-// DataStorageDistructor DataStorage::distructor 
+};
 
-bool addObject(std::string object_name , GameObject* obj){
+bool DataStorage:: addObject(std::string object_name , GameObject* obj){
 
     obj->id_in_data_storage = object_name;
     if(map_of_game_objects[object_name] = obj){
@@ -26,7 +40,7 @@ bool addObject(std::string object_name , GameObject* obj){
     return false;
 }
 
-bool deleteObject(std::string object_name){
+bool DataStorage:: deleteObject(std::string object_name){
 
     if(map_of_game_objects.count(object_name) == 1){
         delete map_of_game_objects[object_name];
@@ -36,11 +50,11 @@ bool deleteObject(std::string object_name){
         return false;
 }
 
-GameObject* getObject(std::string object_name){
+GameObject* DataStorage::getObject(std::string object_name){
     return map_of_game_objects[object_name];
 }
 
-std::vector <GameObject*> getAll(){
+std::vector <GameObject*> DataStorage:: getAll(){
             
     std::vector <GameObject*> output_vector;
     for(auto item : map_of_game_objects){

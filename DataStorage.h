@@ -9,27 +9,28 @@
 #include "GraphicsManager.h"
 
 class GameObject;
-// class DataStorage;
+class DataStorage;
 
-// class DataStorageDistructor{
-//     private:
-//         DataStorage* sample;
-//     public:
-//         ~DataStorageDistructor();
-//         void initialize(DataStorage* s);
-// };
+class DataStorageDistructor{
+    private:
+        DataStorage* sample;
+    public:
+        ~DataStorageDistructor();
+        void initialize(DataStorage* tmpsample);
+};
 
 
 class DataStorage{
     private:
         static DataStorage* sample;
-        //static DataStorageDistructor distructor;
+        static DataStorageDistructor distructor;
         std::map<std::string,GameObject*> map_of_game_objects;
-    //protected:    
+    protected:    
         DataStorage() {};
         DataStorage(const DataStorage&);
         DataStorage& operator = (DataStorage&);
-        //friend class DataStorageDistructor;
+        ~DataStorage() {};
+        friend class DataStorageDistructor;
     public:
         static DataStorage* getSample();
         bool addObject(std::string object_name , GameObject* obj);
