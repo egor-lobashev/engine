@@ -27,4 +27,11 @@ private:
     sf::Sprite sprite;
 };
 
+class Script: public Component
+{
+public:
+    Component();
+    virtual void update();
+}
+
 #endif
