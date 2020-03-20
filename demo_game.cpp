@@ -29,15 +29,33 @@ public:
     }
 };
 
+class Health: public Script
+{
+public:
+    int health;
+
+    void update(float dt)
+    {
+        if (health <= 0)
+        {
+            DataStorage* data_storage = DataStorage::getInspance();
+
+            data_storage->deleteObject(owner->id_in_data_storage);
+        }
+    }
+};
+
 class EnemyAI: public Script
 {
+public:
     float speed = 1;
+    float cooldown = 0;
 
     void update(float dt)
     {
         DataStorage* data_storage = DataStorage::getInspance();
 
-        GameObject* player = data_storage["player"];
+        GameObject* player = data_storage->getObject("player");
 
         float rx = player->position[0] - owner->position[0];
         float ry = player->position[1] - owner->position[1];
@@ -49,6 +67,13 @@ class EnemyAI: public Script
 
         owner->position[0] += rx * speed * dt;
         owner->position[1] += ry * speed * dt;
+
+        cooldown -= dt;
+        if ((cooldown <= 0) and (distance <= 20))
+        {
+            cooldown = 5;
+            player->getComponent<Health>()->health -= 1;
+        }
     }
 };
 
@@ -66,6 +91,11 @@ int main()
     player.getComponent<Renderer>()->createSprite();
     player.position[0] = 300;
     player.position[1] = 300;
+
+    player.addComponent<Controller>();
+
+    player.addComponent<Health>();
+    player.getComponent<Health>().health = 10;
 
     data_storage->addObject("player", &player);
 
