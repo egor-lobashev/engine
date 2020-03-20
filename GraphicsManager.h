@@ -9,7 +9,7 @@ class GameObject;
 
 class GraphicsManager {
     public:
-        static GraphicsManager* getInspance();
+        static GraphicsManager* getInstance();
         void drawAll(sf::RenderWindow& window);
         bool addObject(std::string object_name , GameObject* obj);
         bool deleteObject(std::string object_name);

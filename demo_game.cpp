@@ -2,6 +2,7 @@
 #include <random>
 #include "DataStorage.h"
 #include "GraphicsManager.h"
+#include "ScriptManager.h"
 
 class Controller: public Script
 {
