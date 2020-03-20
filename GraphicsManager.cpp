@@ -4,7 +4,7 @@
 #include "GameObject.h"
 
 
-GraphicsManager* GraphicsManager::getInspance()
+GraphicsManager* GraphicsManager::getInstance()
 {
     if (!instance)
         instance = new GraphicsManager();

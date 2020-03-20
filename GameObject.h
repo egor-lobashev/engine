@@ -6,6 +6,7 @@
 #include <iostream>
 #include "Component.h"
 #include "GraphicsManager.h"
+#include "ScriptManager.h"
 
 class GameObject
 {
@@ -29,8 +30,12 @@ public:
             
             if (new_component->name == typeid(Renderer).name())
             {
-                GraphicsManager* graphics_manager = GraphicsManager::getInspance();
+                GraphicsManager* graphics_manager = GraphicsManager::getInstance();
                 graphics_manager->addObject(id_in_data_storage, this);
+            } else if (is_base_of<Script, T>())
+            {
+                ScriptManager* script_manager = ScriptManager::getInstance();
+                script_manager.adObject(id_in_data_storage, this);
             }
             return true;
         }
@@ -71,7 +76,7 @@ public:
 
         if (typeid(T).name() == typeid(Renderer).name())
         {
-            GraphicsManager* graphics_manager = GraphicsManager::getInspance();
+            GraphicsManager* graphics_manager = GraphicsManager::getInstance();
             graphics_manager->deleteObject(id_in_data_storage);
         }
     }

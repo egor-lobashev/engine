@@ -2,6 +2,7 @@
 #include <random>
 #include "DataStorage.h"
 #include "GraphicsManager.h"
+#include "ScriptManager.h"
 
 class Controller: public Script
 {
@@ -95,7 +96,7 @@ int main()
     player.addComponent<Controller>();
 
     player.addComponent<Health>();
-    player.getComponent<Health>().health = 10;
+    player.getComponent<Health>()->health = 10;
 
     data_storage->addObject("player", &player);
 

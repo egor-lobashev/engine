@@ -6,7 +6,7 @@ int main()
 {
     sf::RenderWindow window(sf::VideoMode(600, 600), "Some game");
     DataStorage data_storage;
-    GraphicsManager* graphics_manager = GraphicsManager::getInspance();
+    GraphicsManager* graphics_manager = GraphicsManager::getInstance();
 
     GameObject player;
     player.addComponent<Renderer>();
