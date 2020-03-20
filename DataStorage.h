@@ -11,13 +11,13 @@
 class DataStorage{
     public:
 
-        //  ~DataStorage(){
+        ~DataStorage(){
 
-        //    for(auto item : map_of_game_objects){
-        //        delete map_of_game_objects[item.first];
-        //    }
+           for(auto item : map_of_game_objects){
+               delete map_of_game_objects[item.first];
+           }
 
-        //}
+        }
 
         bool addObject(std::string object_name , GameObject* obj){
 

@@ -13,6 +13,11 @@ public:
     float position[2];
     std::string id_in_data_storage;  // it's not good
 
+    ~GameObject()
+    {
+        delete getComponent<Renderer>();
+    }
+
     template <typename T>
     bool addComponent()
     {
