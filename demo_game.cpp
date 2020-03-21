@@ -39,7 +39,7 @@ public:
     {
         if (health <= 0)
         {
-            DataStorage* data_storage = DataStorage::getInspance();
+            DataStorage* data_storage = DataStorage::getSample();
 
             data_storage->deleteObject(owner->id_in_data_storage);
         }
@@ -54,7 +54,7 @@ public:
 
     void update(float dt)
     {
-        DataStorage* data_storage = DataStorage::getInspance();
+        DataStorage* data_storage = DataStorage::getSample();
 
         GameObject* player = data_storage->getObject("player");
 
@@ -81,9 +81,9 @@ public:
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(600, 600), "demo game");
-    DataStorage* data_storage = DataStorage::getInspance();
-    GraphicsManager* graphics_manager = GraphicsManager::getInspance();
-    ScriptManager* script_manager = ScriptManager::getInspance();
+    DataStorage* data_storage = DataStorage::getSample();
+    GraphicsManager* graphics_manager = GraphicsManager::getInstance();
+    ScriptManager* script_manager = ScriptManager::getInstance();
     sf::Clock clock;
 
     GameObject player;

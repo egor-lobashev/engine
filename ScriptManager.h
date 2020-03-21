@@ -1,46 +1,20 @@
 #ifndef __SCRIPT_MANAGER__
 #define __SCRIPT_MANAGER__
 
+#include "GameObject.h"
+
 class ScriptManager
 {
 public:
-    static ScriptManager* getInstance()
-    {
-        if (!instance)
-            instance = new ScriptManager();
-        return instance;
-    }
-
-    void updateAll()
-    {
-        // Zhenya's code here
-    }
-
-    bool addObject(std::string object_name , GameObject* obj)
-    {
-        if(scripted_objects[object_name] = obj)
-        {
-            return true;
-        }
-
-        return false;
-    }
-
-    bool deleteObject(std::string object_name)
-    {
-        if(scripted_objects.count(object_name) == 1){
-
-            delete scripted_objects[object_name];
-            scripted_objects.erase(object_name);
-            return true;
-        }
-        return false;
-    }
+    static ScriptManager* getInstance();
+    void updateAll(float dt);
+    bool addObject(Script* script);
+    bool deleteObject(std::string object_name);
 
 private:
     ScriptManager() {}
     static ScriptManager* instance;
-    std::map<std::string, GameObject*> scripted_objects;
+    std::vector<Script*> scripts;
 };
 
 ScriptManager* ScriptManager::instance = nullptr;

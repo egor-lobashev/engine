@@ -13,6 +13,7 @@ class GameObject
 public:
     float position[2];
     std::string id_in_data_storage;  // it's not good
+    std::vector<Script*> scripts;
 
     ~GameObject()
     {
@@ -28,15 +29,17 @@ public:
             components.push_back(new_component);
             components[components.size() - 1]->owner = this;
             
-            if (new_component->name == typeid(Renderer).name())
+            if (typeid(T).name() == typeid(Renderer).name())
             {
                 GraphicsManager* graphics_manager = GraphicsManager::getInstance();
                 graphics_manager->addObject(id_in_data_storage, this);
-            } else if (is_base_of<Script, T>())
+            }
+            else if (std::is_base_of<Script, T>())
             {
                 ScriptManager* script_manager = ScriptManager::getInstance();
-                script_manager.adObject(id_in_data_storage, this);
+                script_manager->addObject(new_component);
             }
+
             return true;
         }
         catch(...)
@@ -78,6 +81,11 @@ public:
         {
             GraphicsManager* graphics_manager = GraphicsManager::getInstance();
             graphics_manager->deleteObject(id_in_data_storage);
+        }
+
+        else if (std::is_base_of<Script, T>())
+        {
+            // must be done
         }
     }
 private:
