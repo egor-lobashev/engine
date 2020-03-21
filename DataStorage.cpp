@@ -10,13 +10,20 @@ DataStorage* DataStorage::sample = nullptr;
 
 
 
-DataStorageDistructor DataStorage::distructor;
+DataStorageDestructor DataStorage::destructor;
 
-DataStorageDistructor::~DataStorageDistructor(){
+DataStorageDestructor::~DataStorageDestructor(){
+       
         delete sample;
 };
 
-void DataStorageDistructor::initialize(DataStorage* tmpsample){
+// DataStorage::~DataStorage(){
+
+//     for (auto item : map_of_game_objects)
+//         delete map_of_game_objects[item.first];
+// };
+
+void DataStorageDestructor::initialize(DataStorage* tmpsample){
 
     sample = tmpsample;
 };  
@@ -25,7 +32,7 @@ DataStorage* DataStorage::getSample(){
     
     if(!sample){
         sample = new DataStorage();
-        distructor.initialize(sample);
+        destructor.initialize(sample);
     }
     return sample;
 };
@@ -51,6 +58,7 @@ bool DataStorage:: deleteObject(std::string object_name){
 }
 
 GameObject* DataStorage::getObject(std::string object_name){
+    
     return map_of_game_objects[object_name];
 }
 

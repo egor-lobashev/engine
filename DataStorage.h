@@ -11,11 +11,11 @@
 class GameObject;
 class DataStorage;
 
-class DataStorageDistructor{
+class DataStorageDestructor{
     private:
         DataStorage* sample;
     public:
-        ~DataStorageDistructor();
+        ~DataStorageDestructor();
         void initialize(DataStorage* tmpsample);
 };
 
@@ -23,14 +23,12 @@ class DataStorageDistructor{
 class DataStorage{
     private:
         static DataStorage* sample;
-        static DataStorageDistructor distructor;
+        static DataStorageDestructor destructor;
         std::map<std::string,GameObject*> map_of_game_objects;
     protected:    
         DataStorage() {};
-        DataStorage(const DataStorage&);
-        DataStorage& operator = (DataStorage&);
         ~DataStorage() {};
-        friend class DataStorageDistructor;
+        friend class DataStorageDestructor;
     public:
         static DataStorage* getSample();
         bool addObject(std::string object_name , GameObject* obj);
