@@ -13,16 +13,16 @@ class DataStorage;
 
 class DataStorageDestructor{
     private:
-        DataStorage* sample;
+        DataStorage* instance;
     public:
         ~DataStorageDestructor();
-        void initialize(DataStorage* tmpsample);
+        void initialize(DataStorage* tmpinstance);
 };
 
 
 class DataStorage{
     private:
-        static DataStorage* sample;
+        static DataStorage* instance;
         static DataStorageDestructor destructor;
         std::map<std::string,GameObject*> map_of_game_objects;
     protected:    
@@ -30,7 +30,7 @@ class DataStorage{
         ~DataStorage() {};
         friend class DataStorageDestructor;
     public:
-        static DataStorage* getSample();
+        static DataStorage* getInstance();
         bool addObject(std::string object_name , GameObject* obj);
         bool deleteObject(std::string object_name);
         GameObject* getObject(std::string object_name);
