@@ -7,7 +7,12 @@
 class Controller: public Script
 {
 public:
-    float speed = 1;
+    float speed = 40;
+
+    Controller()
+    {
+        name = typeid(*this).name();
+    }
 
     void update(float dt)
     {
@@ -19,11 +24,11 @@ public:
         {
             owner->position[0] -= speed * dt;
         }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
         {
             owner->position[1] += speed * dt;
         }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
         {
             owner->position[1] -= speed * dt;
         }
@@ -34,6 +39,11 @@ class Health: public Script
 {
 public:
     int health;
+
+    Health()
+    {
+        name = typeid(*this).name();
+    }
 
     void update(float dt)
     {
@@ -49,8 +59,13 @@ public:
 class EnemyAI: public Script
 {
 public:
-    float speed = 1;
+    float speed = 20;
     float cooldown = 0;
+
+    EnemyAI()
+    {
+        name = typeid(*this).name();
+    }
 
     void update(float dt)
     {
@@ -115,16 +130,24 @@ int main()
             timer = 20;
 
             GameObject* enemy = new GameObject;
-            player.addComponent<Renderer>();
-            player.getComponent<Renderer>()->loadTexture("enemy.png");
-            player.getComponent<Renderer>()->createSprite();
+            enemy->addComponent<Renderer>();
+            enemy->getComponent<Renderer>()->loadTexture("enemy.png");
+            enemy->getComponent<Renderer>()->createSprite();
             enemy->position[0] = rand()%250;
             enemy->position[1] = rand()%250;
+
+            enemy->addComponent<EnemyAI>();
 
             data_storage->addObject("enemy_" + std::to_string(enemy_number++), enemy);
         }
 
         script_manager->updateAll(dt);
+
+        printf("hp: %d\n", data_storage->getObject("player")->getComponent<Health>()->health);
+        if (data_storage->getObject("player") == nullptr)
+        {
+            window.close();
+        }
 
         window.clear(sf::Color(255, 255, 255));
         graphics_manager->drawAll(window);
@@ -140,3 +163,5 @@ int main()
 
     return 0;
 }
+
+// g++ demo_game.cpp Component.cpp DataStorage.cpp GraphicsManager.cpp ScriptManager.cpp -o demo_game -lsfml-graphics -lsfml-window -lsfml-system

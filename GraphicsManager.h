@@ -4,6 +4,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include "Component.h"
 
 class GameObject;
 
@@ -11,12 +12,12 @@ class GraphicsManager {
     public:
         static GraphicsManager* getInstance();
         void drawAll(sf::RenderWindow& window);
-        bool addObject(std::string object_name , GameObject* obj);
-        bool deleteObject(std::string object_name);
+        bool addRenderer(Component* new_renderer);
+        bool removeRenderer(Component* removing_renderer);
     private:
         GraphicsManager() {}
         static GraphicsManager* instance;
-        std::map<std::string,GameObject*> drawable_objects;
+        std::vector<Renderer*> renderers;
 };
 
 #endif

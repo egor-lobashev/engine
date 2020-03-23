@@ -30,11 +30,7 @@ private:
 class Script: public Component
 {
 public:
-    Script()
-    {
-        name = typeid(*this).name();
-    }
-    virtual void update(float dt);
+    virtual void update(float dt) {}
 };
 
 #endif

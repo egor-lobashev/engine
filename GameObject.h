@@ -32,12 +32,12 @@ public:
             if (typeid(T).name() == typeid(Renderer).name())
             {
                 GraphicsManager* graphics_manager = GraphicsManager::getInstance();
-                graphics_manager->addObject(id_in_data_storage, this);
+                graphics_manager->addRenderer(new_component);
             }
             else if (std::is_base_of<Script, T>())
             {
                 ScriptManager* script_manager = ScriptManager::getInstance();
-                script_manager->addObject(new_component);
+                script_manager->addScript(new_component);
             }
 
             return true;
@@ -80,12 +80,13 @@ public:
         if (typeid(T).name() == typeid(Renderer).name())
         {
             GraphicsManager* graphics_manager = GraphicsManager::getInstance();
-            graphics_manager->deleteObject(id_in_data_storage);
+            graphics_manager->removeRenderer(getComponent<T>());
         }
 
         else if (std::is_base_of<Script, T>())
         {
-            // must be done
+            ScriptManager* script_manager = ScriptManager::getInstance();
+            script_manager->removeScript(getComponent<T>());
         }
     }
 private:

@@ -13,30 +13,35 @@ GraphicsManager* GraphicsManager::getInstance()
 
 void GraphicsManager::drawAll(sf::RenderWindow& window){
 
-    for (auto& object : drawable_objects){
-        object.second->getComponent<Renderer>()->draw(window);
+    for (Renderer* renderer: renderers){
+        renderer->draw(window);
     }
 
     window.display();
 }
 
-bool GraphicsManager::addObject(std::string object_name , GameObject* obj)
+bool GraphicsManager::addRenderer(Component* new_renderer)
 {
-    if(drawable_objects[object_name] = obj)
+    try
     {
+        renderers.push_back(static_cast<Renderer*>(new_renderer));
         return true;
     }
-
-    return false;
+    catch(...)
+    {
+        return false;
+    }
 }
 
-bool GraphicsManager::deleteObject(std::string object_name)
+bool GraphicsManager::removeRenderer(Component* removing_renderer)
 {
-    if(drawable_objects.count(object_name) == 1){
-
-        delete drawable_objects[object_name];
-        drawable_objects.erase(object_name);
-        return true;
+    for (int i = 0; i < renderers.size(); i++)
+    {
+        if (renderers[i] == removing_renderer)
+        {
+            renderers.erase(renderers.begin() + i);
+            return true;
+        }
     }
     return false;
 }

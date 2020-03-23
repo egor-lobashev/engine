@@ -8,15 +8,13 @@ class ScriptManager
 public:
     static ScriptManager* getInstance();
     void updateAll(float dt);
-    bool addObject(Script* script);
-    bool deleteObject(std::string object_name);
+    bool addScript(Component* new_script);
+    bool removeScript(Component* removing_script);
 
 private:
     ScriptManager() {}
     static ScriptManager* instance;
     std::vector<Script*> scripts;
 };
-
-ScriptManager* ScriptManager::instance = nullptr;
 
 #endif

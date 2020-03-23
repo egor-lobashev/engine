@@ -16,11 +16,11 @@ void ScriptManager::updateAll(float dt)
     }
 }
 
-bool ScriptManager::addObject(Script* script)
+bool ScriptManager::addScript(Component* new_script)
 {
     try
     {
-        scripts.push_back(script);
+        scripts.push_back(static_cast<Script*>(new_script));
         return true;
     }
     catch(...)
@@ -29,13 +29,17 @@ bool ScriptManager::addObject(Script* script)
     }
 }
 
-// bool ScriptManager::deleteObject(std::string object_name)
-// {
-//     if(scripts.count(object_name) == 1){
+bool ScriptManager::removeScript(Component* removing_script)
+{
+    for (int i = 0; i < scripts.size(); i++)
+    {
+        if (scripts[i] == removing_script)
+        {
+            scripts.erase(scripts.begin() + i);
+            return true;
+        }
+    }
+    return false;
+}
 
-//         delete scripts[object_name];
-//         scripted_objects.erase(object_name);
-//         return true;
-//     }
-//     return false;
-// }
+ScriptManager* ScriptManager::instance = nullptr;
