@@ -6,7 +6,7 @@
 #include "DataStorage.h"
 
 
-DataStorage* DataStorage::sample = nullptr;
+DataStorage* DataStorage::instance = nullptr;
 
 
 
@@ -14,27 +14,27 @@ DataStorageDestructor DataStorage::destructor;
 
 DataStorageDestructor::~DataStorageDestructor(){
        
-        delete sample;
+        delete instance;
 };
 
-// DataStorage::~DataStorage(){
+DataStorage::~DataStorage(){
 
-//     for (auto item : map_of_game_objects)
-//         delete map_of_game_objects[item.first];
-// };
+    for (auto item : map_of_game_objects)
+        delete map_of_game_objects[item.first];
+};
 
-void DataStorageDestructor::initialize(DataStorage* tmpsample){
+void DataStorageDestructor::initialize(DataStorage* tmpinstance){
 
-    sample = tmpsample;
+    instance = tmpinstance;
 };  
 
-DataStorage* DataStorage::getSample(){
+DataStorage* DataStorage::getInstance(){
     
-    if(!sample){
-        sample = new DataStorage();
-        destructor.initialize(sample);
+    if(!instance){
+        instance = new DataStorage();
+        destructor.initialize(instance);
     }
-    return sample;
+    return instance;
 };
 
 bool DataStorage:: addObject(std::string object_name , GameObject* obj){
