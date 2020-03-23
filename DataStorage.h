@@ -26,8 +26,8 @@ class DataStorage{
         static DataStorageDestructor destructor;
         std::map<std::string,GameObject*> map_of_game_objects;
     protected:    
-        DataStorage() {};
-        ~DataStorage() {};
+        DataStorage() {}
+        ~DataStorage();
         friend class DataStorageDestructor;
     public:
         static DataStorage* getInstance();
