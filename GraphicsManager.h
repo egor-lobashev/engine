@@ -4,21 +4,19 @@
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include "Component.h"
+
+class GameObject;
 
 class GraphicsManager {
     public:
-        void drawAll(sf::RenderWindow& window , std::vector <GameObject*> all_objects){
-
-            for (GameObject* object : all_objects){
-                if( object->getComponent<Renderer>() != nullptr ){
-                    object->getComponent<Renderer>()->draw(window);
-
-                }
-            }
-
-            window.display();
-        }
-
+        static GraphicsManager* getInstance();
+        void drawAll(sf::RenderWindow& window);
+        bool addRenderer(Component* new_renderer);
+        bool removeRenderer(Component* removing_renderer);
     private:
+        GraphicsManager() {}
+        static GraphicsManager* instance;
+        std::vector<Renderer*> renderers;
 };
 #endif

@@ -4,51 +4,33 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 
+class GameObject;
+
 class Component
 {
 public:
     std::string name;
+    GameObject* owner;
 };
 
 class Renderer: public Component
 {
 public:
-    Renderer()
-    {
-        name = typeid(*this).name();
-    }
-
-    void draw(sf::RenderWindow& window)
-    {
-        window.draw(sprite);
-    }
-
-    /*
-    std::vector getSpriteposition()
-    {
-        return sprite.getPosition();
-    }
-    */
-
-    void loadTexture(std::string texturename) 
-    {
-        texture.loadFromFile(texturename);
-    }
-
-    void createSprite(int x, int y)
-    {
-        sprite.setTexture(texture);
-        sprite.setPosition(x, y);
-    }
-
-    sf::Sprite* getSprite()
-    {
-        return &sprite;
-    }
+    Renderer();
+    void draw(sf::RenderWindow& window);
+    void loadTexture(std::string texturename);
+    void createSprite();
+    sf::Sprite* getSprite();
 
 private:
     sf::Texture texture;
     sf::Sprite sprite;
+};
+
+class Script: public Component
+{
+public:
+    virtual void update(float dt) {}
 };
 
 #endif
