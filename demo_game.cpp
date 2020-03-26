@@ -93,6 +93,40 @@ public:
     }
 };
 
+class EnemySpawner: public Script
+{
+public:
+    float timer = 10;
+    int enemy_number = 0;
+
+    EnemySpawner()
+    {
+        name = typeid(*this).name();
+    }
+
+    void update(float dt)
+    {
+        timer -= dt;
+        
+        if (timer < 0)
+        {
+            timer = 10;
+            DataStorage* data_storage = DataStorage::getInstance();
+
+            GameObject* enemy = new GameObject;
+            enemy->addComponent<Renderer>();
+            enemy->getComponent<Renderer>()->loadTexture("enemy.png");
+            enemy->getComponent<Renderer>()->createSprite();
+            enemy->position[0] = rand()%250;
+            enemy->position[1] = rand()%250;
+
+            enemy->addComponent<EnemyAI>();
+
+            data_storage->addObject("enemy_" + std::to_string(enemy_number++), enemy);
+        }
+    }
+};
+
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(600, 600), "demo game");
@@ -115,31 +149,17 @@ int main()
 
     data_storage->addObject("player", &player);
 
-    float timer = 20;
-    int enemy_number = 0;
+    
+    GameObject enemy_spawner;
+    enemy_spawner.addComponent<EnemySpawner>();
+
+    data_storage->addObject("enemy_spawner", &enemy_spawner);
 
     sf::Event event;
     while (window.isOpen())
 	{
         float dt = clock.getElapsedTime().asSeconds();
         clock.restart();
-
-        timer -= dt;
-        if (timer < 0)
-        {
-            timer = 20;
-
-            GameObject* enemy = new GameObject;
-            enemy->addComponent<Renderer>();
-            enemy->getComponent<Renderer>()->loadTexture("enemy.png");
-            enemy->getComponent<Renderer>()->createSprite();
-            enemy->position[0] = rand()%250;
-            enemy->position[1] = rand()%250;
-
-            enemy->addComponent<EnemyAI>();
-
-            data_storage->addObject("enemy_" + std::to_string(enemy_number++), enemy);
-        }
 
         script_manager->updateAll(dt);
 
@@ -154,9 +174,8 @@ int main()
 
         while (window.pollEvent(event))
 	    {
-            if (event.type == sf::Event::Closed){
+            if (event.type == sf::Event::Closed)
                 window.close();
-            }	   
 	    }
     
     }
