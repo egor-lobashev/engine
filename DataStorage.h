@@ -9,32 +9,19 @@
 #include "GraphicsManager.h"
 
 class GameObject;
-class DataStorage;
-
-class DataStorageDestructor{
-    private:
-        DataStorage* instance;
-    public:
-        ~DataStorageDestructor();
-        void initialize(DataStorage* tmpinstance);
-};
-
 
 class DataStorage{
-    private:
-        static DataStorage* instance;
-        static DataStorageDestructor destructor;
-        std::map<std::string,GameObject*> map_of_game_objects;
-    protected:    
-        DataStorage() {}
-        ~DataStorage();
-        friend class DataStorageDestructor;
     public:
+        ~DataStorage();
         static DataStorage* getInstance();
         bool addObject(std::string object_name , GameObject* obj);
         bool deleteObject(std::string object_name);
         GameObject* getObject(std::string object_name);
         std::vector <GameObject*> getAll();
+    private:
+        DataStorage() {}
+        static DataStorage* instance;
+        std::map<std::string,GameObject*> map_of_game_objects;
 };
 
 #endif
