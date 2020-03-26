@@ -10,7 +10,7 @@ Renderer::Renderer()
 
 void Renderer::draw(sf::RenderWindow& window)
 {
-    sprite.setPosition(owner->position[0], owner->position[1]);
+    sprite.setPosition( owner->position[0], owner->position[1] );
     window.draw(sprite);
 }
 

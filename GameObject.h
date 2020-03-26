@@ -64,6 +64,19 @@ public:
     template <typename T>
     bool removeComponent()
     {
+
+        if (typeid(T).name() == typeid(Renderer).name())  
+        {
+            GraphicsManager* graphics_manager = GraphicsManager::getInstance();
+            graphics_manager->removeRenderer(getComponent<T>());
+        }
+
+        else if (std::is_base_of<Script, T>())
+        {
+            ScriptManager* script_manager = ScriptManager::getInstance();
+            script_manager->removeScript(getComponent<T>());
+        }
+
         std::string name = typeid(T).name();
 
         for (int i = 0; i < components.size(); i++)
@@ -75,18 +88,6 @@ public:
                 return true;
             }
             return false;
-        }
-
-        if (typeid(T).name() == typeid(Renderer).name())
-        {
-            GraphicsManager* graphics_manager = GraphicsManager::getInstance();
-            graphics_manager->removeRenderer(getComponent<T>());
-        }
-
-        else if (std::is_base_of<Script, T>())
-        {
-            ScriptManager* script_manager = ScriptManager::getInstance();
-            script_manager->removeScript(getComponent<T>());
         }
     }
 private:
