@@ -30,7 +30,19 @@ private:
 class Script: public Component
 {
 public:
+    Script();
     virtual void update(float dt) {}
+};
+
+class Collider: public Component
+{   
+    public:
+        Collider(bool can_bounce);
+        bool canThisObjBounce();
+
+    private:
+
+        bool this_object_can_bounce = false;
 };
 
 #endif

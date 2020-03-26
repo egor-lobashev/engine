@@ -3,6 +3,8 @@
 #include "GameObject.h"
 #include "Component.h"
 
+////////////////////////////////////
+
 Renderer::Renderer()
 {
     name = typeid(*this).name();
@@ -27,4 +29,27 @@ void Renderer::createSprite()
 sf::Sprite* Renderer::getSprite()
 {
     return &sprite;
+}
+
+////////////////////////////////////
+
+Script::Script(){
+
+    this->name = typeid(Script).name();
+
+}
+
+////////////////////////////////////
+
+Collider::Collider(bool can_bounce){
+
+    this->name = typeid(Collider).name();
+    this -> this_object_can_bounce = can_bounce;
+
+}
+
+bool Collider::canThisObjBounce(){
+    
+    return this_object_can_bounce;
+
 }

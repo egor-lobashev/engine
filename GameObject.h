@@ -7,6 +7,7 @@
 #include "Component.h"
 #include "GraphicsManager.h"
 #include "ScriptManager.h"
+#include "PhysicsManager.h"
 
 class GameObject
 {
@@ -32,12 +33,17 @@ public:
             if (typeid(T).name() == typeid(Renderer).name())
             {
                 GraphicsManager* graphics_manager = GraphicsManager::getInstance();
-                graphics_manager->addRenderer(new_component);
+                graphics_manager -> addRenderer(new_component);
             }
             else if (std::is_base_of<Script, T>())
             {
                 ScriptManager* script_manager = ScriptManager::getInstance();
-                script_manager->addScript(new_component);
+                script_manager -> addScript(new_component);
+            }
+            else if ( typeid(T).name() == typeid(Collider).name() )
+            {
+                PhysicsManager* physics_manager = PhysicsManager::getInstance();
+                physics_manager -> addCollider(new_component);
             }
 
             return true;
@@ -68,13 +74,17 @@ public:
         if (typeid(T).name() == typeid(Renderer).name())  
         {
             GraphicsManager* graphics_manager = GraphicsManager::getInstance();
-            graphics_manager->removeRenderer(getComponent<T>());
+            graphics_manager -> removeRenderer(getComponent<T>());
         }
-
+        else if ( typeid(T).name() == typeid(Collider).name() )
+        {
+            PhysicsManager* physics_manager = PhysicsManager::getInstance();
+            physics_manager -> removeCollider(getComponent<T>());
+        }
         else if (std::is_base_of<Script, T>())
         {
             ScriptManager* script_manager = ScriptManager::getInstance();
-            script_manager->removeScript(getComponent<T>());
+            script_manager -> removeScript(getComponent<T>());
         }
 
         std::string name = typeid(T).name();
