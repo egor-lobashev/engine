@@ -38,7 +38,7 @@ public:
 class Health: public Script
 {
 public:
-    int health;
+    int health = 10;
 
     Health()
     {
