@@ -21,5 +21,4 @@ class GraphicsManager {
 
     private:
 };
-
 #endif
