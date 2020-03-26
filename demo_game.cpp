@@ -161,6 +161,10 @@ int main()
     
     }
 
+    delete data_storage;
+    delete graphics_manager;
+    delete script_manager;
+
     return 0;
 }
 

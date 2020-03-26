@@ -8,31 +8,16 @@
 
 DataStorage* DataStorage::instance = nullptr;
 
-
-
-DataStorageDestructor DataStorage::destructor;
-
-DataStorageDestructor::~DataStorageDestructor(){
-       
-        delete instance;
-};
-
 DataStorage::~DataStorage(){
 
     for (auto item : map_of_game_objects)
         delete map_of_game_objects[item.first];
 };
 
-void DataStorageDestructor::initialize(DataStorage* tmpinstance){
-
-    instance = tmpinstance;
-};  
-
 DataStorage* DataStorage::getInstance(){
     
     if(!instance){
         instance = new DataStorage();
-        destructor.initialize(instance);
     }
     return instance;
 };
