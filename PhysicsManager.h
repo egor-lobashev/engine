@@ -10,8 +10,8 @@ class PhysicsManager{
         static PhysicsManager* getInstance();
         bool addCollider(Component* new_collider);
         bool removeCollider(Collider* removing_collider);
-
-
+        bool checkForCollide( Collider* first , Collider* second );
+        bool isCollisions(); /////   TEST
     private:
         static PhysicsManager* instance;
         std::vector <Collider*> collider_objects;

@@ -12,7 +12,8 @@
 class GameObject
 {
 public:
-    float position[2];
+    float position_of_game_object[2];
+    std::vector < std::vector < float > > array_of_relative_x_y_coordinates_clockwise;
     std::string id_in_data_storage;  // it's not good
     std::vector<Script*> scripts;
 
@@ -102,7 +103,24 @@ public:
 
         
     }
+
+    void setBodyPoint( std::vector < float > point )
+    {
+        array_of_relative_x_y_coordinates_clockwise.push_back( point );
+    }
+
+    int getQuantityOfBodyPoints()
+    {
+        return array_of_relative_x_y_coordinates_clockwise.size();
+    }
+
+    std::vector < float > getPointByIndex(int index){
+
+        return array_of_relative_x_y_coordinates_clockwise[index];
+    }
+
 private:
+    
     std::vector<Component*> components;
 };
 

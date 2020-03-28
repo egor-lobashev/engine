@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <string>
+#include <map>
 
 class GameObject;
 
@@ -13,19 +14,24 @@ public:
     GameObject* owner;
 };
 
+/////////////////////////////////////////////////
+
 class Renderer: public Component
 {
 public:
     Renderer();
     void draw(sf::RenderWindow& window);
     void loadTexture(std::string texturename);
-    void createSprite();
+    void createSpriteAndSetSizeOfHitBox( float height , float width );
     sf::Sprite* getSprite();
 
 private:
+    std::map < std::string , float > size_of_object;
     sf::Texture texture;
     sf::Sprite sprite;
 };
+
+/////////////////////////////////////////////////
 
 class Script: public Component
 {
@@ -34,10 +40,12 @@ public:
     virtual void update(float dt) {}
 };
 
+/////////////////////////////////////////////////
+
 class Collider: public Component
 {   
     public:
-        Collider(bool can_bounce);
+        Collider();
         bool canThisObjBounce();
 
     private:

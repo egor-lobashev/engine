@@ -18,19 +18,19 @@ public:
     {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
         {
-            owner->position[0] += speed * dt;
+            owner->position_of_game_object[0] += speed * dt;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
         {
-            owner->position[0] -= speed * dt;
+            owner->position_of_game_object[0] -= speed * dt;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
         {
-            owner->position[1] += speed * dt;
+            owner->position_of_game_object[1] += speed * dt;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
         {
-            owner->position[1] -= speed * dt;
+            owner->position_of_game_object[1] -= speed * dt;
         }
     }
 };
@@ -73,16 +73,16 @@ public:
 
         GameObject* player = data_storage->getObject("player");
 
-        float rx = player->position[0] - owner->position[0];
-        float ry = player->position[1] - owner->position[1];
+        float rx = player->position_of_game_object[0] - owner->position_of_game_object[0];
+        float ry = player->position_of_game_object[1] - owner->position_of_game_object[1];
 
         float distance = sqrt(rx*rx + ry*ry);
 
         rx /= distance;
         ry /= distance;
 
-        owner->position[0] += rx * speed * dt;
-        owner->position[1] += ry * speed * dt;
+        owner->position_of_game_object[0] += rx * speed * dt;
+        owner->position_of_game_object[1] += ry * speed * dt;
 
         cooldown -= dt;
         if ((cooldown <= 0) and (distance <= 20))
@@ -116,9 +116,9 @@ public:
             GameObject* enemy = new GameObject;
             enemy->addComponent<Renderer>();
             enemy->getComponent<Renderer>()->loadTexture("enemy.png");
-            enemy->getComponent<Renderer>()->createSprite();
-            enemy->position[0] = rand()%250;
-            enemy->position[1] = rand()%250;
+            enemy->getComponent<Renderer>()->createSpriteAndSetSizeOfHitBox(60,60);
+            enemy->position_of_game_object[0] = rand()%250;
+            enemy->position_of_game_object[1] = rand()%250;
 
             enemy->addComponent<EnemyAI>();
 
@@ -138,9 +138,9 @@ int main()
     GameObject player;
     player.addComponent<Renderer>();
     player.getComponent<Renderer>()->loadTexture("image.png");
-    player.getComponent<Renderer>()->createSprite();
-    player.position[0] = 300;
-    player.position[1] = 300;
+    player.getComponent<Renderer>()->createSpriteAndSetSizeOfHitBox(90,60);
+    player.position_of_game_object[0] = 300;
+    player.position_of_game_object[1] = 300;
 
     player.addComponent<Controller>();
 
@@ -168,7 +168,7 @@ int main()
         {
             window.close();
         }
-
+        
         window.clear(sf::Color(255, 255, 255));
         graphics_manager->drawAll(window);
 
@@ -177,6 +177,7 @@ int main()
             if (event.type == sf::Event::Closed)
                 window.close();
 	    }
+
     
     }
 
@@ -187,4 +188,4 @@ int main()
     return 0;
 }
 
-// g++ demo_game.cpp Component.cpp DataStorage.cpp GraphicsManager.cpp ScriptManager.cpp -o demo_game -lsfml-graphics -lsfml-window -lsfml-system
+// g++ demo_game.cpp Component.cpp DataStorage.cpp PhysicsManager.cpp GraphicsManager.cpp ScriptManager.cpp -o demo_game -lsfml-graphics -lsfml-window -lsfml-system
