@@ -6,8 +6,6 @@
 #include "DataStorage.h"
 
 
-DataStorage* DataStorage::instance = nullptr;
-
 DataStorage::~DataStorage(){
 
     for (auto item : map_of_game_objects)
@@ -19,32 +17,29 @@ DataStorage::~DataStorage(){
     }
 };
 
-DataStorage* DataStorage::getInstance(){
-    
-    if(!instance){
-        instance = new DataStorage();
-    }
-    return instance;
-};
-
-bool DataStorage:: addObject(std::string object_name , GameObject* obj){
+bool DataStorage::addObject(std::string object_name , GameObject* obj){
 
     obj->id_in_data_storage = object_name;
-    if(map_of_game_objects[object_name] = obj){
+    obj->storage = this;
+    try
+    {
+        map_of_game_objects[object_name] = obj;
         return true;
     }
-
-    return false;
+    catch(...)
+    {
+        return false;
+    }
 }
 
-bool DataStorage:: deleteObject(std::string object_name){
+bool DataStorage::deleteObject(std::string object_name){
 
     if(map_of_game_objects.count(object_name) == 1){
         delete map_of_game_objects[object_name];
         map_of_game_objects.erase(object_name);
         return true;
     }
-        return false;
+    return false;
 }
 
 GameObject* DataStorage::getObject(std::string object_name){

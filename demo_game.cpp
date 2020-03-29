@@ -1,9 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include <random>
-#include "DataStorage.h"
-#include "GraphicsManager.h"
-#include "ScriptManager.h"
-#include "PhysicsManager.h"
+#include "GameObject.h"
 
 class Controller: public Script
 {
@@ -52,9 +49,7 @@ public:
 
         if (health <= 0)
         {
-            DataStorage* data_storage = DataStorage::getInstance();
-
-            //data_storage->deleteObject(owner->id_in_data_storage);
+            //owner->storage->deleteObject(owner->id_in_data_storage);
         }
     }
 };
@@ -72,9 +67,7 @@ public:
 
     void update(float dt)
     {
-        DataStorage* data_storage = DataStorage::getInstance();
-
-        GameObject* player = data_storage->getObject("player");
+        GameObject* player = owner->storage->getObject("player");
 
         if (player == nullptr)
             return;
@@ -117,7 +110,6 @@ public:
         if (timer < 0)
         {
             timer = 5;
-            DataStorage* data_storage = DataStorage::getInstance();
 
             GameObject* enemy = new GameObject;
             enemy->dynamic = true;
@@ -133,7 +125,7 @@ public:
 
             enemy->addComponent<EnemyAI>();
 
-            data_storage->addObject("enemy_" + std::to_string(enemy_number++), enemy);
+            owner->storage->addObject("enemy_" + std::to_string(enemy_number++), enemy);
         }
     }
 };
@@ -141,7 +133,7 @@ public:
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(600, 600), "demo game");
-    DataStorage* data_storage = DataStorage::getInstance();
+    DataStorage* data_storage;
     GraphicsManager* graphics_manager = GraphicsManager::getInstance();
     ScriptManager* script_manager = ScriptManager::getInstance();
     PhysicsManager* physics_manager = PhysicsManager::getInstance();
@@ -164,7 +156,6 @@ int main()
     player.getComponent<Health>()->health = 1;
 
     data_storage->addObject("player", &player);
-
     
     GameObject enemy_spawner;
     enemy_spawner.addComponent<EnemySpawner>();
@@ -177,7 +168,7 @@ int main()
         float dt = clock.getElapsedTime().asSeconds();
         clock.restart();
 
-        script_manager->updateAll(dt);
+        //script_manager->updateAll(dt);
         physics_manager->checkAllCollisions();
 
         //if (data_storage->getObject("player") == nullptr)
@@ -195,11 +186,9 @@ int main()
             if (event.type == sf::Event::Closed)
                 window.close();
 	    }
-
-    
     }
 
-    delete data_storage;
+    // delete data_storage;
     // delete graphics_manager;
     // delete script_manager;
 

@@ -8,6 +8,7 @@
 #include "GraphicsManager.h"
 #include "ScriptManager.h"
 #include "PhysicsManager.h"
+#include "DataStorage.h"
 
 class GameObject
 {
@@ -15,6 +16,7 @@ public:
     float position[2];
     bool dynamic = false;
     std::string id_in_data_storage;
+    DataStorage* storage;
 
     ~GameObject()
     {
@@ -107,6 +109,8 @@ public:
         }
         return false;
     }
+
+    
 
 private:
     

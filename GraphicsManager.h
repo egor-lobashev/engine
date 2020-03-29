@@ -6,8 +6,6 @@
 #include <iostream>
 #include "Component.h"
 
-class GameObject;
-
 class GraphicsManager {
     public:
         static GraphicsManager* getInstance();

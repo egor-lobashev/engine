@@ -4,7 +4,6 @@
 #include <vector>
 #include "Component.h"
 
-
 class PhysicsManager{
     public:
         static PhysicsManager* getInstance();
