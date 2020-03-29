@@ -22,11 +22,10 @@ public:
     Renderer();
     void draw(sf::RenderWindow& window);
     void loadTexture(std::string texturename);
-    void createSpriteAndSetSizeOfHitBox( float height , float width );
+    void createSprite();
     sf::Sprite* getSprite();
 
 private:
-    std::map < std::string , float > size_of_object;
     sf::Texture texture;
     sf::Sprite sprite;
 };
@@ -47,9 +46,13 @@ class Collider: public Component
     public:
         Collider();
         bool canThisObjBounce();
+        void setBodyPoint( std::vector < float > point );
+        int getQuantityOfBodyPoints();
+        std::vector < float > getPointByIndex(int index);
+        bool setHitboxRectangle(float height , float width);
 
     private:
-
+        std::vector<std::vector<float>> hitbox_coordinates;
         bool this_object_can_bounce = false;
 };
 

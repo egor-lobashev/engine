@@ -154,27 +154,27 @@ void PhysicsManager::checkForCollide( Collider* first , Collider* second )
     std::vector < std::vector < float > > absolute_points_coordinates_of_first_obj_clockwise;
     std::vector < std::vector < float > > absolute_points_coordinates_of_second_obj_clockwise;
 
-    int quantity_of_points_first = first -> owner -> getQuantityOfBodyPoints();
-    int quantity_of_points_second = second -> owner -> getQuantityOfBodyPoints();
+    int quantity_of_points_first = first ->  getQuantityOfBodyPoints();
+    int quantity_of_points_second = second -> getQuantityOfBodyPoints();
 
-    float x_coordinate_of_first = first -> owner -> position_of_game_object[0];
-    float y_coordinate_of_first = first -> owner -> position_of_game_object[1];
+    float x_coordinate_of_first = first -> owner -> position[0];
+    float y_coordinate_of_first = first -> owner -> position[1];
 
-    float x_coordinate_of_second = second -> owner -> position_of_game_object[0];
-    float y_coordinate_of_second = second -> owner -> position_of_game_object[1];
+    float x_coordinate_of_second = second -> owner -> position[0];
+    float y_coordinate_of_second = second -> owner -> position[1];
 
     for ( int i = 0 ; i < quantity_of_points_first ; ++i)
     {
-        float x_coordinate_of_point = first -> owner -> getPointByIndex(i)[0];
-        float y_coordinate_of_point = first -> owner -> getPointByIndex(i)[1];
+        float x_coordinate_of_point = first -> getPointByIndex(i)[0];
+        float y_coordinate_of_point = first -> getPointByIndex(i)[1];
 
         absolute_points_coordinates_of_first_obj_clockwise.push_back( { x_coordinate_of_first + x_coordinate_of_point , y_coordinate_of_first + y_coordinate_of_point } );
     }
 
     for ( int i = 0 ; i < quantity_of_points_second ; ++i)
     {
-        float x_coordinate_of_point = second -> owner -> getPointByIndex(i)[0];
-        float y_coordinate_of_point = second -> owner -> getPointByIndex(i)[1];
+        float x_coordinate_of_point = second -> getPointByIndex(i)[0];
+        float y_coordinate_of_point = second -> getPointByIndex(i)[1];
 
         absolute_points_coordinates_of_second_obj_clockwise.push_back( { x_coordinate_of_second + x_coordinate_of_point , y_coordinate_of_second + y_coordinate_of_point } );
     }

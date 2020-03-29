@@ -15,8 +15,6 @@ public:
     float position[2];
     bool dynamic = false;
     std::string id_in_data_storage;
-    float position_of_game_object[2];
-    std::vector < std::vector < float > > array_of_relative_x_y_coordinates_clockwise;
 
     ~GameObject()
     {
@@ -108,21 +106,6 @@ public:
             }
         }
         return false;
-    }
-
-    void setBodyPoint( std::vector < float > point )
-    {
-        array_of_relative_x_y_coordinates_clockwise.push_back( point );
-    }
-
-    int getQuantityOfBodyPoints()
-    {
-        return array_of_relative_x_y_coordinates_clockwise.size();
-    }
-
-    std::vector < float > getPointByIndex(int index){
-
-        return array_of_relative_x_y_coordinates_clockwise[index];
     }
 
 private:

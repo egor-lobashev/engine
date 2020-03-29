@@ -12,7 +12,7 @@ Renderer::Renderer()
 
 void Renderer::draw(sf::RenderWindow& window)
 {
-    sprite.setPosition( owner->position_of_game_object[0], owner->position_of_game_object[1] );
+    sprite.setPosition( owner->position[0], owner->position[1] );
     window.draw(sprite);
 }
 
@@ -21,20 +21,9 @@ void Renderer::loadTexture(std::string texturename)
     texture.loadFromFile(texturename);
 }
 
-void Renderer::createSpriteAndSetSizeOfHitBox( float height , float width )
+void Renderer::createSprite()
 {
     sprite.setTexture(texture);
-    size_of_object["height"] = height;
-    size_of_object["width"] = width;
-    
-    for ( int i = 0 ; i < 2 ; ++i)
-    {
-        for( int j = 0 ; j < 2 ; ++j)
-        {
-            owner -> setBodyPoint( { width*j , height*i } );
-        }
-
-    }
 }
 
 sf::Sprite* Renderer::getSprite()
@@ -61,4 +50,31 @@ bool Collider::canThisObjBounce(){
     
     return this_object_can_bounce;
 
+}
+
+void Collider::setBodyPoint( std::vector < float > point )
+{
+    hitbox_coordinates.push_back( point );
+}
+
+int Collider::getQuantityOfBodyPoints()
+{
+    return hitbox_coordinates.size();
+}
+
+std::vector<float> Collider::getPointByIndex(int index)
+{
+    return hitbox_coordinates[index];
+}
+
+bool Collider::setHitboxRectangle(float height, float width)
+{
+    for ( int i = 0 ; i < 2 ; ++i)
+    {
+        for( int j = 0 ; j < 2 ; ++j)
+        {
+            setBodyPoint( { width*j , height*i } );
+        }
+    }
+    return true;
 }
