@@ -7,6 +7,7 @@
 #include "Component.h"
 #include "GraphicsManager.h"
 #include "ScriptManager.h"
+#include "PhysicsManager.h"
 
 class GameObject
 {
@@ -14,6 +15,8 @@ public:
     float position[2];
     bool dynamic = false;
     std::string id_in_data_storage;
+    float position_of_game_object[2];
+    std::vector < std::vector < float > > array_of_relative_x_y_coordinates_clockwise;
 
     ~GameObject()
     {
@@ -37,12 +40,17 @@ public:
             if (typeid(T).name() == typeid(Renderer).name())
             {
                 GraphicsManager* graphics_manager = GraphicsManager::getInstance();
-                graphics_manager->addRenderer(new_component);
+                graphics_manager -> addRenderer(new_component);
             }
             else if (std::is_base_of<Script, T>())
             {
                 ScriptManager* script_manager = ScriptManager::getInstance();
-                script_manager->addScript(new_component);
+                script_manager -> addScript(new_component);
+            }
+            else if ( typeid(T).name() == typeid(Collider).name() )
+            {
+                PhysicsManager* physics_manager = PhysicsManager::getInstance();
+                physics_manager -> addCollider(new_component);
             }
 
             return true;
@@ -73,13 +81,17 @@ public:
         if (typeid(T).name() == typeid(Renderer).name())  
         {
             GraphicsManager* graphics_manager = GraphicsManager::getInstance();
-            graphics_manager->removeRenderer(getComponent<T>());
+            graphics_manager -> removeRenderer(getComponent<T>());
         }
-
+        else if ( typeid(T).name() == typeid(Collider).name() )
+        {
+            PhysicsManager* physics_manager = PhysicsManager::getInstance();
+            physics_manager -> removeCollider(getComponent<T>());
+        }
         else if (std::is_base_of<Script, T>())
         {
             ScriptManager* script_manager = ScriptManager::getInstance();
-            script_manager->removeScript(getComponent<T>());
+            script_manager -> removeScript(getComponent<T>());
         }
 
         std::string name = typeid(T).name();
@@ -97,7 +109,24 @@ public:
         }
         return false;
     }
+
+    void setBodyPoint( std::vector < float > point )
+    {
+        array_of_relative_x_y_coordinates_clockwise.push_back( point );
+    }
+
+    int getQuantityOfBodyPoints()
+    {
+        return array_of_relative_x_y_coordinates_clockwise.size();
+    }
+
+    std::vector < float > getPointByIndex(int index){
+
+        return array_of_relative_x_y_coordinates_clockwise[index];
+    }
+
 private:
+    
     std::vector<Component*> components;
 };
 
