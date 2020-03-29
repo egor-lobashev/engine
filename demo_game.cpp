@@ -47,11 +47,13 @@ public:
 
     void update(float dt)
     {
+        //printf("hp: %d\n", health);
+
         if (health <= 0)
         {
             DataStorage* data_storage = DataStorage::getInstance();
 
-            data_storage->deleteObject(owner->id_in_data_storage);
+            //data_storage->deleteObject(owner->id_in_data_storage);
         }
     }
 };
@@ -72,6 +74,9 @@ public:
         DataStorage* data_storage = DataStorage::getInstance();
 
         GameObject* player = data_storage->getObject("player");
+
+        if (player == nullptr)
+            return;
 
         float rx = player->position[0] - owner->position[0];
         float ry = player->position[1] - owner->position[1];
@@ -96,7 +101,7 @@ public:
 class EnemySpawner: public Script
 {
 public:
-    float timer = 10;
+    float timer = 1;
     int enemy_number = 0;
 
     EnemySpawner()
@@ -110,10 +115,11 @@ public:
         
         if (timer < 0)
         {
-            timer = 10;
+            timer = 5;
             DataStorage* data_storage = DataStorage::getInstance();
 
             GameObject* enemy = new GameObject;
+            enemy->dynamic = true;
             enemy->addComponent<Renderer>();
             enemy->getComponent<Renderer>()->loadTexture("enemy.png");
             enemy->getComponent<Renderer>()->createSprite();
@@ -121,6 +127,7 @@ public:
             enemy->position[1] = rand()%250;
 
             enemy->addComponent<EnemyAI>();
+            enemy->deleteComponent<EnemyAI>();
 
             data_storage->addObject("enemy_" + std::to_string(enemy_number++), enemy);
         }
@@ -145,7 +152,7 @@ int main()
     player.addComponent<Controller>();
 
     player.addComponent<Health>();
-    player.getComponent<Health>()->health = 10;
+    player.getComponent<Health>()->health = 1;
 
     data_storage->addObject("player", &player);
 
@@ -163,8 +170,8 @@ int main()
 
         script_manager->updateAll(dt);
 
-        printf("hp: %d\n", data_storage->getObject("player")->getComponent<Health>()->health);
-        if (data_storage->getObject("player") == nullptr)
+        //if (data_storage->getObject("player") == nullptr)
+        if (player.getComponent<Health>()->health <= 0)
         {
             window.close();
         }
@@ -181,8 +188,8 @@ int main()
     }
 
     delete data_storage;
-    delete graphics_manager;
-    delete script_manager;
+    // delete graphics_manager;
+    // delete script_manager;
 
     return 0;
 }

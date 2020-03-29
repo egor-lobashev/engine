@@ -11,7 +11,12 @@ DataStorage* DataStorage::instance = nullptr;
 DataStorage::~DataStorage(){
 
     for (auto item : map_of_game_objects)
-        delete map_of_game_objects[item.first];
+    {
+        std::cout << item.second->id_in_data_storage << std::endl;
+        if (item.second->dynamic)
+            delete item.second;
+        std::cout << "successfully" << std::endl << std::endl;
+    }
 };
 
 DataStorage* DataStorage::getInstance(){
@@ -56,7 +61,3 @@ std::vector <GameObject*> DataStorage:: getAll(){
 
     return output_vector;
 }
-
-
-   
-

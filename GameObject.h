@@ -12,12 +12,17 @@ class GameObject
 {
 public:
     float position[2];
-    std::string id_in_data_storage;  // it's not good
-    std::vector<Script*> scripts;
+    bool dynamic = false;
+    std::string id_in_data_storage;
 
     ~GameObject()
     {
-        delete getComponent<Renderer>();
+        for (Component* component : components)
+        {
+            std::cout << "    " << component->name << std::endl;
+            delete component;
+            std::cout << "    deleted" << std::endl;
+        }
     }
 
     template <typename T>
@@ -62,7 +67,7 @@ public:
     }
 
     template <typename T>
-    bool removeComponent()
+    bool deleteComponent()
     {
 
         if (typeid(T).name() == typeid(Renderer).name())  
@@ -83,12 +88,14 @@ public:
         {
             if (components[i]->name == name)
             {
+                std::cout << "deleteComponent: " << components.size() << std::endl;
                 delete components[i];
                 components.erase(components.begin() + i);
+                std::cout << "deleteComponent: " << components.size() << ")" << std::endl;
                 return true;
             }
-            return false;
         }
+        return false;
     }
 private:
     std::vector<Component*> components;
