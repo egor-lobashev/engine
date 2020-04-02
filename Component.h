@@ -46,7 +46,7 @@ class Collider: public Component
     public:
         Collider();
         bool canThisObjBounce();
-        void setBodyPoint( std::vector < float > point );
+        void setBodyPointClockwise( std::vector < float > point );
         int getQuantityOfBodyPoints();
         std::vector < float > getPointByIndex(int index);
         bool setHitboxRectangle(float height , float width);

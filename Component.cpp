@@ -52,7 +52,7 @@ bool Collider::canThisObjBounce(){
 
 }
 
-void Collider::setBodyPoint( std::vector < float > point )
+void Collider::setBodyPointClockwise( std::vector < float > point )
 {
     hitbox_coordinates.push_back( point );
 }
@@ -73,7 +73,7 @@ bool Collider::setHitboxRectangle(float height, float width)
     {
         for( int j = 0 ; j < 2 ; ++j)
         {
-            setBodyPoint( { width*j , height*i } );
+            setBodyPointClockwise( { width*j , height*i } );
         }
     }
     return true;
