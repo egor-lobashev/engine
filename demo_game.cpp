@@ -133,7 +133,7 @@ public:
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(600, 600), "demo game");
-    DataStorage* data_storage;
+    DataStorage data_storage;
     GraphicsManager* graphics_manager = GraphicsManager::getInstance();
     ScriptManager* script_manager = ScriptManager::getInstance();
     PhysicsManager* physics_manager = PhysicsManager::getInstance();
@@ -155,12 +155,12 @@ int main()
     player.addComponent<Health>();
     player.getComponent<Health>()->health = 1;
 
-    data_storage->addObject("player", &player);
+    data_storage.addObject("player", &player);
     
     GameObject enemy_spawner;
     enemy_spawner.addComponent<EnemySpawner>();
 
-    data_storage->addObject("enemy_spawner", &enemy_spawner);
+    data_storage.addObject("enemy_spawner", &enemy_spawner);
 
     sf::Event event;
     while (window.isOpen())
@@ -168,7 +168,7 @@ int main()
         float dt = clock.getElapsedTime().asSeconds();
         clock.restart();
 
-        //script_manager->updateAll(dt);
+        script_manager->updateAll(dt);
         physics_manager->checkAllCollisions();
 
         //if (data_storage->getObject("player") == nullptr)
