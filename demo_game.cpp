@@ -1,8 +1,9 @@
 #include <SFML/Graphics.hpp>
 #include <random>
 #include "GameObject.h"
+#include "API.h"
 
-class Controller: public Script
+class Controller: public qqq::Script
 {
 public:
     float speed = 40;
@@ -14,7 +15,7 @@ public:
 
     void update()
     {
-        Singleton* singleton = Singleton::getInstance();
+        qqqP::Singleton* singleton = qqqP::Singleton::getInstance();
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
         {
@@ -35,7 +36,7 @@ public:
     }
 };
 
-class Health: public Script
+class Health: public qqq::Script
 {
 public:
     int health = 10;
@@ -56,7 +57,7 @@ public:
     }
 };
 
-class EnemyAI: public Script
+class EnemyAI: public qqq::Script
 {
 public:
     float speed = 20;
@@ -69,8 +70,8 @@ public:
 
     void update()
     {
-        Singleton* singleton = Singleton::getInstance();
-        GameObject* player = owner->storage->getObject("player");
+        qqqP::Singleton* singleton = qqqP::Singleton::getInstance();
+        qqq::GameObject* player = owner->storage->getObject("player");
 
         if (player == nullptr)
             return;
@@ -95,7 +96,7 @@ public:
     }
 };
 
-class EnemySpawner: public Script
+class EnemySpawner: public qqq::Script
 {
 public:
     float timer = 1;
@@ -108,21 +109,21 @@ public:
 
     void update()
     {
-        Singleton* singleton = Singleton::getInstance();
+        qqqP::Singleton* singleton = qqqP::Singleton::getInstance();
         timer -= singleton->dt;
         
         if (timer < 0)
         {
             timer = 5;
 
-            GameObject* enemy = new GameObject;
+            qqq::GameObject* enemy = new qqq::GameObject;
             enemy->dynamic = true;
-            enemy->addComponent<Renderer>();
-            enemy->getComponent<Renderer>()->loadTexture("enemy.png");
-            enemy->getComponent<Renderer>()->createSprite();
+            enemy->addComponent<qqq::Renderer>();
+            enemy->getComponent<qqq::Renderer>()->loadTexture("enemy.png");
+            enemy->getComponent<qqq::Renderer>()->createSprite();
 
-            enemy->addComponent<Collider>();
-            enemy->getComponent<Collider>()->setHitboxRectangle(60,60);
+            enemy->addComponent<qqq::Collider>();
+            enemy->getComponent<qqq::Collider>()->setHitboxRectangle(60,60);
 
             enemy->position[0] = rand()%250;
             enemy->position[1] = rand()%250;
@@ -137,17 +138,17 @@ public:
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(600, 600), "demo game");
-    DataStorage data_storage;
-    Singleton* singleton = Singleton::getInstance();
+    qqqP::DataStorage data_storage;
+    qqqP::Singleton* singleton = qqqP::Singleton::getInstance();
     sf::Clock clock;
 
-    GameObject player;
-    player.addComponent<Renderer>();
-    player.getComponent<Renderer>()->loadTexture("image.png");
-    player.getComponent<Renderer>()->createSprite();
+    qqq::GameObject player;
+    player.addComponent<qqq::Renderer>();
+    player.getComponent<qqq::Renderer>()->loadTexture("image.png");
+    player.getComponent<qqq::Renderer>()->createSprite();
 
-    player.addComponent<Collider>();
-    player.getComponent<Collider>()->setHitboxRectangle(90,60);
+    player.addComponent<qqq::Collider>();
+    player.getComponent<qqq::Collider>()->setHitboxRectangle(90,60);
 
     player.position[0] = 300;
     player.position[1] = 300;
@@ -159,7 +160,7 @@ int main()
 
     data_storage.addObject("player", &player);
     
-    GameObject enemy_spawner;
+    qqq::GameObject enemy_spawner;
     enemy_spawner.addComponent<EnemySpawner>();
 
     data_storage.addObject("enemy_spawner", &enemy_spawner);
@@ -197,4 +198,4 @@ int main()
     return 0;
 }
 
-// g++ demo_game.cpp Component.cpp DataStorage.cpp PhysicsManager.cpp GraphicsManager.cpp ScriptManager.cpp Singleton.cpp -o demo_game -lsfml-graphics -lsfml-window -lsfml-system
+// g++ demo_game.cpp Component.cpp DataStorage.cpp PhysicsManager.cpp GraphicsManager.cpp ScriptManager.cpp Singleton.cpp -o demo_game -lsfml-graphics -lsfml-window -lsfml-qqqP

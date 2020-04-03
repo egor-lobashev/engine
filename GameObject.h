@@ -7,18 +7,19 @@
 #include "Component.h"
 #include "Singleton.h"
 #include "DataStorage.h"
+#include "API.h"
 
-class GameObject
+class qqq::GameObject
 {
 public:
     float position[2];
     bool dynamic = false;
     std::string id_in_data_storage;
-    DataStorage* storage;
+    qqqP::DataStorage* storage;
 
     ~GameObject()
     {
-        for (Component* component : components)
+        for (qqq::Component* component : components)
         {
             std::cout << "    " << component->name << std::endl;
             delete component;
@@ -34,17 +35,17 @@ public:
             T* new_component = new T;
             components.push_back(new_component);
             components[components.size() - 1]->owner = this;
-            Singleton* singleton = Singleton::getInstance();
+            qqqP::Singleton* singleton = qqqP::Singleton::getInstance();
             
-            if (typeid(T).name() == typeid(Renderer).name())
+            if (typeid(T).name() == typeid(qqq::Renderer).name())
             {
                 singleton->graphics_manager.addRenderer(new_component);
             }
-            else if (std::is_base_of<Script, T>())
+            else if (std::is_base_of<qqq::Script, T>())
             {
                 singleton->script_manager.addScript(new_component);
             }
-            else if ( typeid(T).name() == typeid(Collider).name() )
+            else if ( typeid(T).name() == typeid(qqq::Collider).name() )
             {
                 singleton->physics_manager.addCollider(new_component);
             }
@@ -62,7 +63,7 @@ public:
     {
 	    std::string name = typeid(T).name();
 
-        for (Component* comp: components)
+        for (qqq::Component* comp: components)
         {
             if (comp->name == name)
                 return static_cast<T*>(comp);
@@ -73,17 +74,17 @@ public:
     template <typename T>
     bool deleteComponent()
     {
-        Singleton* singleton = Singleton::getInstance();
+        qqqP::Singleton* singleton = qqqP::Singleton::getInstance();
 
-        if (typeid(T).name() == typeid(Renderer).name())  
+        if (typeid(T).name() == typeid(qqq::Renderer).name())  
         {
             singleton->graphics_manager.removeRenderer(getComponent<T>());
         }
-        else if ( typeid(T).name() == typeid(Collider).name() )
+        else if ( typeid(T).name() == typeid(qqq::Collider).name() )
         {
             singleton->physics_manager.removeCollider(getComponent<T>());
         }
-        else if (std::is_base_of<Script, T>())
+        else if (std::is_base_of<qqq::Script, T>())
         {
             singleton->script_manager.removeScript(getComponent<T>());
         }
@@ -103,8 +104,6 @@ public:
         }
         return false;
     }
-
-    
 
 private:
     

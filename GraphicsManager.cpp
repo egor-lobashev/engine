@@ -4,20 +4,20 @@
 #include "GameObject.h"
 
 
-void GraphicsManager::drawAll(sf::RenderWindow& window){
+void qqqP::GraphicsManager::drawAll(sf::RenderWindow& window){
 
-    for (Renderer* renderer: renderers){
+    for (qqq::Renderer* renderer: renderers){
         renderer->draw(window);
     }
 
     window.display();
 }
 
-bool GraphicsManager::addRenderer(Component* new_renderer)
+bool qqqP::GraphicsManager::addRenderer(qqq::Component* new_renderer)
 {
     try
     {
-        renderers.push_back(static_cast<Renderer*>(new_renderer));
+        renderers.push_back(static_cast<qqq::Renderer*>(new_renderer));
         return true;
     }
     catch(...)
@@ -26,7 +26,7 @@ bool GraphicsManager::addRenderer(Component* new_renderer)
     }
 }
 
-bool GraphicsManager::removeRenderer(Component* removing_renderer)
+bool qqqP::GraphicsManager::removeRenderer(qqq::Component* removing_renderer)
 {
     for (int i = 0; i < renderers.size(); i++)
     {

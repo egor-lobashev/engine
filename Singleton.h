@@ -4,17 +4,18 @@
 #include "GraphicsManager.h"
 #include "ScriptManager.h"
 #include "PhysicsManager.h"
+#include "API.h"
 
-class Singleton
+class qqqP::Singleton
 {
     public:
-        static Singleton* getInstance();
-        GraphicsManager graphics_manager;
-        ScriptManager script_manager;
-        PhysicsManager physics_manager;
+        static qqqP::Singleton* getInstance();
+        qqqP::GraphicsManager graphics_manager;
+        qqqP::ScriptManager script_manager;
+        qqqP::PhysicsManager physics_manager;
         float dt;
     private:
         Singleton() {}
-        static Singleton* instance;
+        static qqqP::Singleton* instance;
 };
 #endif

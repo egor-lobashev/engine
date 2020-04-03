@@ -4,19 +4,18 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 #include <map>
+#include "API.h"
 
-class GameObject;
-
-class Component
+class qqq::Component
 {
 public:
     std::string name;
-    GameObject* owner;
+    qqq::GameObject* owner;
 };
 
 /////////////////////////////////////////////////
 
-class Renderer: public Component
+class qqq::Renderer: public qqq::Component
 {
 public:
     Renderer();
@@ -32,7 +31,7 @@ private:
 
 /////////////////////////////////////////////////
 
-class Script: public Component
+class qqq::Script: public qqq::Component
 {
 public:
     Script();
@@ -41,7 +40,7 @@ public:
 
 /////////////////////////////////////////////////
 
-class Collider: public Component
+class qqq::Collider: public qqq::Component
 {   
     public:
         Collider();

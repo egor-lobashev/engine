@@ -5,69 +5,69 @@
 
 ////////////////////////////////////
 
-Renderer::Renderer()
+qqq::Renderer::Renderer()
 {
     name = typeid(*this).name();
 }
 
-void Renderer::draw(sf::RenderWindow& window)
+void qqq::Renderer::draw(sf::RenderWindow& window)
 {
     sprite.setPosition( owner->position[0], owner->position[1] );
     window.draw(sprite);
 }
 
-void Renderer::loadTexture(std::string texturename) 
+void qqq::Renderer::loadTexture(std::string texturename) 
 {
     texture.loadFromFile(texturename);
 }
 
-void Renderer::createSprite()
+void qqq::Renderer::createSprite()
 {
     sprite.setTexture(texture);
 }
 
-sf::Sprite* Renderer::getSprite()
+sf::Sprite* qqq::Renderer::getSprite()
 {
     return &sprite;
 }
 
 ////////////////////////////////////
 
-Script::Script(){
+qqq::Script::Script(){
 
-    this->name = typeid(Script).name();
+    this->name = typeid(qqq::Script).name();
 
 }
 
 ////////////////////////////////////
 
-Collider::Collider(){
+qqq::Collider::Collider(){
 
-    this->name = typeid(Collider).name();
+    this->name = typeid(qqq::Collider).name();
 }
 
-bool Collider::canThisObjBounce(){
+bool qqq::Collider::canThisObjBounce(){
     
     return this_object_can_bounce;
 
 }
 
-void Collider::setBodyPoint( std::vector < float > point )
+void qqq::Collider::setBodyPoint( std::vector < float > point )
 {
     hitbox_coordinates.push_back( point );
 }
 
-int Collider::getQuantityOfBodyPoints()
+int qqq::Collider::getQuantityOfBodyPoints()
 {
     return hitbox_coordinates.size();
 }
 
-std::vector<float> Collider::getPointByIndex(int index)
+std::vector<float> qqq::Collider::getPointByIndex(int index)
 {
     return hitbox_coordinates[index];
 }
 
-bool Collider::setHitboxRectangle(float height, float width)
+bool qqq::Collider::setHitboxRectangle(float height, float width)
 {
     for ( int i = 0 ; i < 2 ; ++i)
     {

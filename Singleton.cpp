@@ -1,10 +1,10 @@
 #include "Singleton.h"
 
-Singleton* Singleton::getInstance()
+qqqP::Singleton* qqqP::Singleton::getInstance()
 {
     if (!instance)
-        instance = new Singleton();
+        instance = new qqqP::Singleton();
     return instance;
 }
 
-Singleton* Singleton::instance = nullptr;
+qqqP::Singleton* qqqP::Singleton::instance = nullptr;
