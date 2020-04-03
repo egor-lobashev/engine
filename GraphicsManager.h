@@ -8,13 +8,11 @@
 
 class GraphicsManager {
     public:
-        static GraphicsManager* getInstance();
         void drawAll(sf::RenderWindow& window);
         bool addRenderer(Component* new_renderer);
         bool removeRenderer(Component* removing_renderer);
     private:
-        GraphicsManager() {}
-        static GraphicsManager* instance;
         std::vector<Renderer*> renderers;
 };
+
 #endif

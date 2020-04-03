@@ -108,16 +108,6 @@ bool checkOneObject( std::vector < std::vector < float > > absolute_points_coord
     return true;
 }
 
-PhysicsManager* PhysicsManager::instance = nullptr;
-
-PhysicsManager* PhysicsManager::getInstance(){
-
-    if(!instance){
-        instance = new PhysicsManager;
-    }
-    return instance;
-}
-
 bool PhysicsManager::addCollider(Component* new_collider){
 
     try

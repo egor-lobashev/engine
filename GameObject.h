@@ -5,9 +5,7 @@
 #include <vector>
 #include <iostream>
 #include "Component.h"
-#include "GraphicsManager.h"
-#include "ScriptManager.h"
-#include "PhysicsManager.h"
+#include "Singleton.h"
 #include "DataStorage.h"
 
 class GameObject
@@ -36,21 +34,19 @@ public:
             T* new_component = new T;
             components.push_back(new_component);
             components[components.size() - 1]->owner = this;
+            Singleton* singleton = Singleton::getInstance();
             
             if (typeid(T).name() == typeid(Renderer).name())
             {
-                GraphicsManager* graphics_manager = GraphicsManager::getInstance();
-                graphics_manager -> addRenderer(new_component);
+                singleton->graphics_manager.addRenderer(new_component);
             }
             else if (std::is_base_of<Script, T>())
             {
-                ScriptManager* script_manager = ScriptManager::getInstance();
-                script_manager -> addScript(new_component);
+                singleton->script_manager.addScript(new_component);
             }
             else if ( typeid(T).name() == typeid(Collider).name() )
             {
-                PhysicsManager* physics_manager = PhysicsManager::getInstance();
-                physics_manager -> addCollider(new_component);
+                singleton->physics_manager.addCollider(new_component);
             }
 
             return true;
@@ -77,21 +73,19 @@ public:
     template <typename T>
     bool deleteComponent()
     {
+        Singleton* singleton = Singleton::getInstance();
 
         if (typeid(T).name() == typeid(Renderer).name())  
         {
-            GraphicsManager* graphics_manager = GraphicsManager::getInstance();
-            graphics_manager -> removeRenderer(getComponent<T>());
+            singleton->graphics_manager.removeRenderer(getComponent<T>());
         }
         else if ( typeid(T).name() == typeid(Collider).name() )
         {
-            PhysicsManager* physics_manager = PhysicsManager::getInstance();
-            physics_manager -> removeCollider(getComponent<T>());
+            singleton->physics_manager.removeCollider(getComponent<T>());
         }
         else if (std::is_base_of<Script, T>())
         {
-            ScriptManager* script_manager = ScriptManager::getInstance();
-            script_manager -> removeScript(getComponent<T>());
+            singleton->script_manager.removeScript(getComponent<T>());
         }
 
         std::string name = typeid(T).name();

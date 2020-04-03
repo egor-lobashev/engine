@@ -4,13 +4,6 @@
 #include "GameObject.h"
 
 
-GraphicsManager* GraphicsManager::getInstance()
-{
-    if (!instance)
-        instance = new GraphicsManager();
-    return instance;
-}
-
 void GraphicsManager::drawAll(sf::RenderWindow& window){
 
     for (Renderer* renderer: renderers){
@@ -45,5 +38,3 @@ bool GraphicsManager::removeRenderer(Component* removing_renderer)
     }
     return false;
 }
-
-GraphicsManager* GraphicsManager::instance = nullptr;

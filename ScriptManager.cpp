@@ -1,18 +1,11 @@
 #include "GameObject.h"
 #include "ScriptManager.h"
 
-ScriptManager* ScriptManager::getInstance()
-{
-    if (!instance)
-        instance = new ScriptManager();
-    return instance;
-}
-
-void ScriptManager::updateAll(float dt)
+void ScriptManager::updateAll()
 {
     for (Script* script : scripts)
     {
-        script->update(dt);
+        script->update();
     }
 }
 
@@ -41,5 +34,3 @@ bool ScriptManager::removeScript(Component* removing_script)
     }
     return false;
 }
-
-ScriptManager* ScriptManager::instance = nullptr;

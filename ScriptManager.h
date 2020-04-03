@@ -4,14 +4,11 @@
 class ScriptManager
 {
 public:
-    static ScriptManager* getInstance();
-    void updateAll(float dt);
+    void updateAll();
     bool addScript(Component* new_script);
     bool removeScript(Component* removing_script);
 
 private:
-    ScriptManager() {}
-    static ScriptManager* instance;
     std::vector<Script*> scripts;
 };
 

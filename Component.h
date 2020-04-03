@@ -36,7 +36,7 @@ class Script: public Component
 {
 public:
     Script();
-    virtual void update(float dt) {}
+    virtual void update() {}
 };
 
 /////////////////////////////////////////////////

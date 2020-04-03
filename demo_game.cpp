@@ -12,23 +12,25 @@ public:
         name = typeid(*this).name();
     }
 
-    void update(float dt)
+    void update()
     {
+        Singleton* singleton = Singleton::getInstance();
+
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
         {
-            owner->position[0] += speed * dt;
+            owner->position[0] += speed * singleton->dt;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
         {
-            owner->position[0] -= speed * dt;
+            owner->position[0] -= speed * singleton->dt;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
         {
-            owner->position[1] += speed * dt;
+            owner->position[1] += speed * singleton->dt;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
         {
-            owner->position[1] -= speed * dt;
+            owner->position[1] -= speed * singleton->dt;
         }
     }
 };
@@ -43,7 +45,7 @@ public:
         name = typeid(*this).name();
     }
 
-    void update(float dt)
+    void update()
     {
         //printf("hp: %d\n", health);
 
@@ -65,8 +67,9 @@ public:
         name = typeid(*this).name();
     }
 
-    void update(float dt)
+    void update()
     {
+        Singleton* singleton = Singleton::getInstance();
         GameObject* player = owner->storage->getObject("player");
 
         if (player == nullptr)
@@ -80,10 +83,10 @@ public:
         rx /= distance;
         ry /= distance;
 
-        owner->position[0] += rx * speed * dt;
-        owner->position[1] += ry * speed * dt;
+        owner->position[0] += rx * speed * singleton->dt;
+        owner->position[1] += ry * speed * singleton->dt;
 
-        cooldown -= dt;
+        cooldown -= singleton->dt;
         if ((cooldown <= 0) and (distance <= 20))
         {
             cooldown = 5;
@@ -103,9 +106,10 @@ public:
         name = typeid(*this).name();
     }
 
-    void update(float dt)
+    void update()
     {
-        timer -= dt;
+        Singleton* singleton = Singleton::getInstance();
+        timer -= singleton->dt;
         
         if (timer < 0)
         {
@@ -134,9 +138,7 @@ int main()
 {
     sf::RenderWindow window(sf::VideoMode(600, 600), "demo game");
     DataStorage data_storage;
-    GraphicsManager* graphics_manager = GraphicsManager::getInstance();
-    ScriptManager* script_manager = ScriptManager::getInstance();
-    PhysicsManager* physics_manager = PhysicsManager::getInstance();
+    Singleton* singleton = Singleton::getInstance();
     sf::Clock clock;
 
     GameObject player;
@@ -165,11 +167,11 @@ int main()
     sf::Event event;
     while (window.isOpen())
 	{
-        float dt = clock.getElapsedTime().asSeconds();
+        singleton->dt = clock.getElapsedTime().asSeconds();
         clock.restart();
 
-        script_manager->updateAll(dt);
-        physics_manager->checkAllCollisions();
+        singleton->script_manager.updateAll();
+        singleton->physics_manager.checkAllCollisions();
 
         //if (data_storage->getObject("player") == nullptr)
         if (player.getComponent<Health>()->health <= 0)
@@ -179,7 +181,7 @@ int main()
         }
         
         window.clear(sf::Color(255, 255, 255));
-        graphics_manager->drawAll(window);
+        singleton->graphics_manager.drawAll(window);
 
         while (window.pollEvent(event))
 	    {
@@ -195,4 +197,4 @@ int main()
     return 0;
 }
 
-// g++ demo_game.cpp Component.cpp DataStorage.cpp PhysicsManager.cpp GraphicsManager.cpp ScriptManager.cpp -o demo_game -lsfml-graphics -lsfml-window -lsfml-system
+// g++ demo_game.cpp Component.cpp DataStorage.cpp PhysicsManager.cpp GraphicsManager.cpp ScriptManager.cpp Singleton.cpp -o demo_game -lsfml-graphics -lsfml-window -lsfml-system
