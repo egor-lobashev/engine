@@ -18,7 +18,6 @@ public:
 class qqq::Renderer: public qqq::Component
 {
 public:
-    Renderer();
     void draw(sf::RenderWindow& window);
     void loadTexture(std::string texturename);
     void createSprite();
@@ -34,7 +33,6 @@ private:
 class qqq::Script: public qqq::Component
 {
 public:
-    Script();
     virtual void update() {}
 };
 
@@ -43,7 +41,6 @@ public:
 class qqq::Collider: public qqq::Component
 {   
     public:
-        Collider();
         bool canThisObjBounce();
         void setBodyPoint( std::vector < float > point );
         int getQuantityOfBodyPoints();

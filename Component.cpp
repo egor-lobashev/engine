@@ -5,11 +5,6 @@
 
 ////////////////////////////////////
 
-qqq::Renderer::Renderer()
-{
-    name = typeid(*this).name();
-}
-
 void qqq::Renderer::draw(sf::RenderWindow& window)
 {
     sprite.setPosition( owner->position[0], owner->position[1] );
@@ -32,19 +27,6 @@ sf::Sprite* qqq::Renderer::getSprite()
 }
 
 ////////////////////////////////////
-
-qqq::Script::Script(){
-
-    this->name = typeid(qqq::Script).name();
-
-}
-
-////////////////////////////////////
-
-qqq::Collider::Collider(){
-
-    this->name = typeid(qqq::Collider).name();
-}
 
 bool qqq::Collider::canThisObjBounce(){
     

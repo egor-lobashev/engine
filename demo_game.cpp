@@ -8,30 +8,26 @@ class Controller: public qqq::Script
 public:
     float speed = 40;
 
-    Controller()
-    {
-        name = typeid(*this).name();
-    }
-
     void update()
     {
         qqqP::Singleton* singleton = qqqP::Singleton::getInstance();
+        float dt = qqq::relativeTime();
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
         {
-            owner->position[0] += speed * singleton->dt;
+            owner->position[0] += speed * dt;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
         {
-            owner->position[0] -= speed * singleton->dt;
+            owner->position[0] -= speed * dt;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
         {
-            owner->position[1] += speed * singleton->dt;
+            owner->position[1] += speed * dt;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
         {
-            owner->position[1] -= speed * singleton->dt;
+            owner->position[1] -= speed * dt;
         }
     }
 };
@@ -40,11 +36,6 @@ class Health: public qqq::Script
 {
 public:
     int health = 10;
-
-    Health()
-    {
-        name = typeid(*this).name();
-    }
 
     void update()
     {
@@ -63,15 +54,10 @@ public:
     float speed = 20;
     float cooldown = 0;
 
-    EnemyAI()
-    {
-        name = typeid(*this).name();
-    }
-
     void update()
     {
-        qqqP::Singleton* singleton = qqqP::Singleton::getInstance();
-        qqq::GameObject* player = owner->storage->getObject("player");
+        qqq::GameObject* player = qqq::getObject("player");
+        float dt = qqq::relativeTime();
 
         if (player == nullptr)
             return;
@@ -84,10 +70,10 @@ public:
         rx /= distance;
         ry /= distance;
 
-        owner->position[0] += rx * speed * singleton->dt;
-        owner->position[1] += ry * speed * singleton->dt;
+        owner->position[0] += rx * speed * dt;
+        owner->position[1] += ry * speed * dt;
 
-        cooldown -= singleton->dt;
+        cooldown -= dt;
         if ((cooldown <= 0) and (distance <= 20))
         {
             cooldown = 5;
@@ -102,15 +88,9 @@ public:
     float timer = 1;
     int enemy_number = 0;
 
-    EnemySpawner()
-    {
-        name = typeid(*this).name();
-    }
-
     void update()
     {
-        qqqP::Singleton* singleton = qqqP::Singleton::getInstance();
-        timer -= singleton->dt;
+        timer -= qqq::relativeTime();
         
         if (timer < 0)
         {
@@ -130,18 +110,13 @@ public:
 
             enemy->addComponent<EnemyAI>();
 
-            owner->storage->addObject("enemy_" + std::to_string(enemy_number++), enemy);
+            enemy->record("enemy_" + std::to_string(enemy_number++));
         }
     }
 };
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(600, 600), "demo game");
-    qqqP::DataStorage data_storage;
-    qqqP::Singleton* singleton = qqqP::Singleton::getInstance();
-    sf::Clock clock;
-
     qqq::GameObject player;
     player.addComponent<qqq::Renderer>();
     player.getComponent<qqq::Renderer>()->loadTexture("image.png");
@@ -158,44 +133,17 @@ int main()
     player.addComponent<Health>();
     player.getComponent<Health>()->health = 1;
 
-    data_storage.addObject("player", &player);
+    player.record("player");
     
+
     qqq::GameObject enemy_spawner;
     enemy_spawner.addComponent<EnemySpawner>();
 
-    data_storage.addObject("enemy_spawner", &enemy_spawner);
+    enemy_spawner.record("enemy_spawner");
 
-    sf::Event event;
-    while (window.isOpen())
-	{
-        singleton->dt = clock.getElapsedTime().asSeconds();
-        clock.restart();
-
-        singleton->script_manager.updateAll();
-        singleton->physics_manager.checkAllCollisions();
-
-        //if (data_storage->getObject("player") == nullptr)
-        if (player.getComponent<Health>()->health <= 0)
-        {
-            std::cout << "game over\n";
-            window.close();
-        }
-        
-        window.clear(sf::Color(255, 255, 255));
-        singleton->graphics_manager.drawAll(window);
-
-        while (window.pollEvent(event))
-	    {
-            if (event.type == sf::Event::Closed)
-                window.close();
-	    }
-    }
-
-    // delete data_storage;
-    // delete graphics_manager;
-    // delete script_manager;
+    qqq::runGame(600, 600, "Demo game");
 
     return 0;
 }
 
-// g++ demo_game.cpp Component.cpp DataStorage.cpp PhysicsManager.cpp GraphicsManager.cpp ScriptManager.cpp Singleton.cpp -o demo_game -lsfml-graphics -lsfml-window -lsfml-qqqP
+// g++ demo_game.cpp Component.cpp DataStorage.cpp PhysicsManager.cpp GraphicsManager.cpp ScriptManager.cpp Singleton.cpp qqq_functions.cpp -o demo_game -lsfml-graphics -lsfml-window -lsfml-system

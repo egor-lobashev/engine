@@ -17,6 +17,11 @@ namespace qqq
     class Renderer;
     class Script;
     class Collider;
+
+    void runGame(int window_width, int window_height, std::string window_name);
+    qqq::GameObject* getObject(std::string name);
+    float absoluteTime();
+    float relativeTime();
 }
 
 #endif

@@ -15,7 +15,6 @@ public:
     float position[2];
     bool dynamic = false;
     std::string id_in_data_storage;
-    qqqP::DataStorage* storage;
 
     ~GameObject()
     {
@@ -33,6 +32,7 @@ public:
         try
         {
             T* new_component = new T;
+            new_component->name = typeid(T).name();
             components.push_back(new_component);
             components[components.size() - 1]->owner = this;
             qqqP::Singleton* singleton = qqqP::Singleton::getInstance();
@@ -103,6 +103,12 @@ public:
             }
         }
         return false;
+    }
+
+    void record(std::string id)
+    {
+        qqqP::Singleton* singleton = qqqP::Singleton::getInstance();
+        singleton->data_storage.addObject(id, this);
     }
 
 private:
