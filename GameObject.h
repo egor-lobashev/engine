@@ -16,6 +16,7 @@ public:
     bool dynamic = false;
     std::string id_in_data_storage;
     float mass = 1;
+    std::vector<qqq::Component*> scripts;
 
     ~GameObject()
     {
@@ -45,6 +46,7 @@ public:
             else if (std::is_base_of<qqq::Script, T>())
             {
                 singleton->script_manager.addScript(new_component);
+                scripts.push_back(new_component);
             }
             else if ( typeid(T).name() == typeid(qqq::Collider).name() )
             {
@@ -114,7 +116,8 @@ public:
 
 private:
     
-    std::vector<Component*> components;
+    std::vector<qqq::Component*> components;
+    
 };
 
 #endif

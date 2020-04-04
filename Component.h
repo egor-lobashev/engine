@@ -34,6 +34,7 @@ class qqq::Script: public qqq::Component
 {
 public:
     virtual void update() {}
+    virtual void ifCollision(qqq::GameObject* another) {}
 };
 
 /////////////////////////////////////////////////
