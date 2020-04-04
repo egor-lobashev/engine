@@ -15,6 +15,7 @@ public:
     float position[2];
     bool dynamic = false;
     std::string id_in_data_storage;
+    float mass = 1;
 
     ~GameObject()
     {
@@ -108,7 +109,7 @@ public:
     void record(std::string id)
     {
         qqqP::Singleton* singleton = qqqP::Singleton::getInstance();
-        singleton->data_storage.addObject(id, this);
+        singleton->data_storage.addObject(id, this );
     }
 
 private:

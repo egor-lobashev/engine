@@ -8,6 +8,30 @@ void qqqP::GraphicsManager::drawAll(sf::RenderWindow& window){
 
     for (qqq::Renderer* renderer: renderers){
         renderer->draw(window);
+
+        ////////////////////////////////////////////
+        //////////FOR COLLIION DEVELOP//////////////
+        /////////DRAWING HITBOX ANIMATION///////////
+        ////////////////////////////////////////////
+        if(renderer -> owner -> getComponent<qqq::Collider>())
+        {      
+            qqq::Collider* collider = renderer -> owner -> getComponent<qqq::Collider>();
+            sf::VertexArray lines;
+            float x = 0.0f, y = 0.0f;
+            for( int i = 0 ; i < collider -> getQuantityOfBodyPoints() ; ++i)
+            {   
+                x = collider -> getPointByIndex(i)[0] + renderer ->owner -> position[0];
+                y =  collider -> getPointByIndex(i)[1] + renderer ->owner -> position[1];
+                lines.append( sf::Vertex( sf::Vector2f (x,y) , sf::Color::Black , sf::Vector2f (0.0f,0.0f) ) ) ;   
+                lines.setPrimitiveType ( sf::LinesStrip ) ;
+            }
+
+            lines.append( lines[0] ) ;
+            window.draw(lines);
+        }
+        ////////////////////////////////////////////
+        ////////////END OF REALIZATION//////////////
+        ////////////////////////////////////////////
     }
 
     window.display();

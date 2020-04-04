@@ -57,7 +57,7 @@ bool checkOneObject( std::vector < std::vector < float > > absolute_points_coord
                 float tg = ( y1 - y2 ) / (x1 - x2);
 
                 cos = sqrt( 1/( 1 + tg*tg ) );
-                sin = sqrt( 1 - cos*cos );
+                sin = tg*cos;
             }
         }   
         else
@@ -77,7 +77,7 @@ bool checkOneObject( std::vector < std::vector < float > > absolute_points_coord
                 float tg = ( y1 - y2 ) / (x1 - x2);
 
                 cos = sqrt( 1/( 1 + tg*tg ) );
-                sin = sqrt( 1 - cos*cos );
+                sin = tg*cos;
             }
         }
 
@@ -86,11 +86,11 @@ bool checkOneObject( std::vector < std::vector < float > > absolute_points_coord
         std::vector < float > points_proection_on_new_axis_for_second_obj;
 
         for ( int i = 0 ; i < quantity_of_points_first ; ++i){
-            points_proection_on_new_axis_for_first_obj.push_back( absolute_points_coordinates_of_first_obj_clockwise[i][0]*sin + absolute_points_coordinates_of_first_obj_clockwise[i][1]*cos );
+            points_proection_on_new_axis_for_first_obj.push_back( -absolute_points_coordinates_of_first_obj_clockwise[i][0]*sin + absolute_points_coordinates_of_first_obj_clockwise[i][1]*cos );
         }
 
         for ( int i = 0 ; i < quantity_of_points_second ; ++i){
-            points_proection_on_new_axis_for_second_obj.push_back( absolute_points_coordinates_of_second_obj_clockwise[i][0]*sin + absolute_points_coordinates_of_second_obj_clockwise[i][1]*cos );
+            points_proection_on_new_axis_for_second_obj.push_back( -absolute_points_coordinates_of_second_obj_clockwise[i][0]*sin + absolute_points_coordinates_of_second_obj_clockwise[i][1]*cos );
         }
 
         float max1 = getMaxElement(points_proection_on_new_axis_for_first_obj);
@@ -135,7 +135,7 @@ bool qqqP::PhysicsManager::removeCollider(qqq::Component* removing_collider){
     }
 }
 
-void qqqP::PhysicsManager::checkForCollide( qqq::Collider* first , qqq::Collider* second )
+bool qqqP::PhysicsManager::checkForCollide( qqq::Collider* first , qqq::Collider* second )
 {   
     //////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -173,11 +173,13 @@ void qqqP::PhysicsManager::checkForCollide( qqq::Collider* first , qqq::Collider
     //////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////
 
-    if(checkOneObject( absolute_points_coordinates_of_first_obj_clockwise,quantity_of_points_first , absolute_points_coordinates_of_second_obj_clockwise,quantity_of_points_second)
-        or checkOneObject( absolute_points_coordinates_of_second_obj_clockwise,quantity_of_points_second , absolute_points_coordinates_of_first_obj_clockwise,quantity_of_points_first))
-    {
-        std::cout << first->owner->id_in_data_storage << " has collided with " << second->owner->id_in_data_storage << std::endl;
-    }
+    bool this_objects_collided = true;
+
+    this_objects_collided = checkOneObject( absolute_points_coordinates_of_first_obj_clockwise,quantity_of_points_first , absolute_points_coordinates_of_second_obj_clockwise,quantity_of_points_second);
+
+    this_objects_collided = checkOneObject( absolute_points_coordinates_of_second_obj_clockwise,quantity_of_points_second , absolute_points_coordinates_of_first_obj_clockwise,quantity_of_points_first);
+
+    return this_objects_collided;
 }
 
 void qqqP::PhysicsManager::checkAllCollisions()
@@ -188,7 +190,10 @@ void qqqP::PhysicsManager::checkAllCollisions()
         {
             if (i > j)
             {
-                checkForCollide(collider_objects[i], collider_objects[j]);
+                if(checkForCollide(collider_objects[i], collider_objects[j]))
+                {
+                    std::cout << collider_objects[i]->owner->id_in_data_storage << " has collided with " << collider_objects[j]->owner->id_in_data_storage<<std::endl;
+                }
             }
         }
     }

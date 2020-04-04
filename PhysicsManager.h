@@ -9,7 +9,7 @@ class qqqP::PhysicsManager{
     public:
         bool addCollider(qqq::Component* new_collider);
         bool removeCollider(qqq::Component* removing_collider);
-        void checkForCollide( qqq::Collider* first , qqq::Collider* second );
+        bool checkForCollide( qqq::Collider* first , qqq::Collider* second );
         void checkAllCollisions();
     private:
         std::vector <qqq::Collider*> collider_objects;

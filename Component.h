@@ -48,8 +48,8 @@ class qqq::Collider: public qqq::Component
         bool setHitboxRectangle(float height , float width);
 
     private:
-        std::vector<std::vector<float>> hitbox_coordinates;
-        bool this_object_can_bounce = false;
+        std::vector<std::vector<float>> relative_hitbox_coordinates;
+        bool this_object_can_bounce = true;
 };
 
 #endif

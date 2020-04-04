@@ -36,27 +36,24 @@ bool qqq::Collider::canThisObjBounce(){
 
 void qqq::Collider::setBodyPointClockwise( std::vector < float > point )
 {
-    hitbox_coordinates.push_back( point );
+    relative_hitbox_coordinates.push_back( point );
 }
 
 int qqq::Collider::getQuantityOfBodyPoints()
 {
-    return hitbox_coordinates.size();
+    return relative_hitbox_coordinates.size();
 }
 
 std::vector<float> qqq::Collider::getPointByIndex(int index)
 {
-    return hitbox_coordinates[index];
+    return relative_hitbox_coordinates[index];
 }
 
 bool qqq::Collider::setHitboxRectangle(float height, float width)
 {
-    for ( int i = 0 ; i < 2 ; ++i)
-    {
-        for( int j = 0 ; j < 2 ; ++j)
-        {
-            setBodyPointClockwise( { width*j , height*i } );
-        }
-    }
+    setBodyPointClockwise( { width*0 , height*0 } );
+    setBodyPointClockwise( { width*1 , height*0 } );
+    setBodyPointClockwise( { width*1 , height*1 } );
+    setBodyPointClockwise( { width*0 , height*1 } );
     return true;
 }
