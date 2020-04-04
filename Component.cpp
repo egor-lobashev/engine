@@ -16,6 +16,11 @@ void qqq::Renderer::loadTexture(std::string texturename)
     texture.loadFromFile(texturename);
 }
 
+std::string qqq::Renderer::getNameOfTexture()
+{
+    return name_of_texture;
+}
+
 void qqq::Renderer::createSprite()
 {
     sprite.setTexture(texture);

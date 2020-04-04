@@ -135,6 +135,18 @@ bool qqqP::PhysicsManager::removeCollider(qqq::Component* removing_collider){
     }
 }
 
+std::vector < qqq::Collider* > qqqP::PhysicsManager::getAll()
+{
+    std::vector < qqq::Collider* > output_colliders;
+
+    for( auto obj : collider_objects)
+    {
+        output_colliders.push_back(obj);
+    }
+
+    return output_colliders;
+}
+
 bool qqqP::PhysicsManager::checkForCollide( qqq::Collider* first , qqq::Collider* second )
 {   
     //////////////////////////////////////////////////////////////////////////////////////////////////

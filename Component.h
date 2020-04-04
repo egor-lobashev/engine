@@ -20,10 +20,12 @@ class qqq::Renderer: public qqq::Component
 public:
     void draw(sf::RenderWindow& window);
     void loadTexture(std::string texturename);
+    std::string getNameOfTexture();
     void createSprite();
     sf::Sprite* getSprite();
 
 private:
+    std::string name_of_texture;
     sf::Texture texture;
     sf::Sprite sprite;
 };
