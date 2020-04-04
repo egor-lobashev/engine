@@ -3,18 +3,16 @@
 
 #include <vector>
 #include "Component.h"
+#include "API.h"
 
-class PhysicsManager{
+class qqqP::PhysicsManager{
     public:
-        static PhysicsManager* getInstance();
-        bool addCollider(Component* new_collider);
-        bool removeCollider(Component* removing_collider);
-        void checkForCollide( Collider* first , Collider* second );
+        bool addCollider(qqq::Component* new_collider);
+        bool removeCollider(qqq::Component* removing_collider);
+        void checkForCollide( qqq::Collider* first , qqq::Collider* second );
         void checkAllCollisions();
     private:
-        PhysicsManager() {}
-        static PhysicsManager* instance;
-        std::vector <Collider*> collider_objects;
+        std::vector <qqq::Collider*> collider_objects;
 
 };
 #endif

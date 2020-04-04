@@ -4,22 +4,20 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 #include <map>
+#include "API.h"
 
-class GameObject;
-
-class Component
+class qqq::Component
 {
 public:
     std::string name;
-    GameObject* owner;
+    qqq::GameObject* owner;
 };
 
 /////////////////////////////////////////////////
 
-class Renderer: public Component
+class qqq::Renderer: public qqq::Component
 {
 public:
-    Renderer();
     void draw(sf::RenderWindow& window);
     void loadTexture(std::string texturename);
     void createSprite();
@@ -32,19 +30,17 @@ private:
 
 /////////////////////////////////////////////////
 
-class Script: public Component
+class qqq::Script: public qqq::Component
 {
 public:
-    Script();
-    virtual void update(float dt) {}
+    virtual void update() {}
 };
 
 /////////////////////////////////////////////////
 
-class Collider: public Component
+class qqq::Collider: public qqq::Component
 {   
     public:
-        Collider();
         bool canThisObjBounce();
         void setBodyPointClockwise( std::vector < float > point );
         int getQuantityOfBodyPoints();

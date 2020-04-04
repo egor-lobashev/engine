@@ -1,26 +1,19 @@
 #include "GameObject.h"
 #include "ScriptManager.h"
 
-ScriptManager* ScriptManager::getInstance()
+void qqqP::ScriptManager::updateAll()
 {
-    if (!instance)
-        instance = new ScriptManager();
-    return instance;
-}
-
-void ScriptManager::updateAll(float dt)
-{
-    for (Script* script : scripts)
+    for (qqq::Script* script : scripts)
     {
-        script->update(dt);
+        script->update();
     }
 }
 
-bool ScriptManager::addScript(Component* new_script)
+bool qqqP::ScriptManager::addScript(qqq::Component* new_script)
 {
     try
     {
-        scripts.push_back(static_cast<Script*>(new_script));
+        scripts.push_back(static_cast<qqq::Script*>(new_script));
         return true;
     }
     catch(...)
@@ -29,7 +22,7 @@ bool ScriptManager::addScript(Component* new_script)
     }
 }
 
-bool ScriptManager::removeScript(Component* removing_script)
+bool qqqP::ScriptManager::removeScript(qqq::Component* removing_script)
 {
     for (int i = 0; i < scripts.size(); i++)
     {
@@ -41,5 +34,3 @@ bool ScriptManager::removeScript(Component* removing_script)
     }
     return false;
 }
-
-ScriptManager* ScriptManager::instance = nullptr;

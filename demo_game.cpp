@@ -1,19 +1,18 @@
 #include <SFML/Graphics.hpp>
 #include <random>
 #include "GameObject.h"
+#include "API.h"
 
-class Controller: public Script
+class Controller: public qqq::Script
 {
 public:
     float speed = 40;
 
-    Controller()
+    void update()
     {
-        name = typeid(*this).name();
-    }
+        qqqP::Singleton* singleton = qqqP::Singleton::getInstance();
+        float dt = qqq::relativeTime();
 
-    void update(float dt)
-    {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
         {
             owner->position[0] += speed * dt;
@@ -33,17 +32,12 @@ public:
     }
 };
 
-class Health: public Script
+class Health: public qqq::Script
 {
 public:
     int health = 10;
 
-    Health()
-    {
-        name = typeid(*this).name();
-    }
-
-    void update(float dt)
+    void update()
     {
         //printf("hp: %d\n", health);
 
@@ -54,20 +48,16 @@ public:
     }
 };
 
-class EnemyAI: public Script
+class EnemyAI: public qqq::Script
 {
 public:
     float speed = 20;
     float cooldown = 0;
 
-    EnemyAI()
+    void update()
     {
-        name = typeid(*this).name();
-    }
-
-    void update(float dt)
-    {
-        GameObject* player = owner->storage->getObject("player");
+        qqq::GameObject* player = qqq::getObject("player");
+        float dt = qqq::relativeTime();
 
         if (player == nullptr)
             return;
@@ -92,60 +82,48 @@ public:
     }
 };
 
-class EnemySpawner: public Script
+class EnemySpawner: public qqq::Script
 {
 public:
     float timer = 1;
     int enemy_number = 0;
 
-    EnemySpawner()
+    void update()
     {
-        name = typeid(*this).name();
-    }
-
-    void update(float dt)
-    {
-        timer -= dt;
+        timer -= qqq::relativeTime();
         
         if (timer < 0)
         {
             timer = 5;
 
-            GameObject* enemy = new GameObject;
+            qqq::GameObject* enemy = new qqq::GameObject;
             enemy->dynamic = true;
-            enemy->addComponent<Renderer>();
-            enemy->getComponent<Renderer>()->loadTexture("enemy.png");
-            enemy->getComponent<Renderer>()->createSprite();
+            enemy->addComponent<qqq::Renderer>();
+            enemy->getComponent<qqq::Renderer>()->loadTexture("enemy.png");
+            enemy->getComponent<qqq::Renderer>()->createSprite();
 
-            enemy->addComponent<Collider>();
-            enemy->getComponent<Collider>()->setHitboxRectangle(60,60);
+            enemy->addComponent<qqq::Collider>();
+            enemy->getComponent<qqq::Collider>()->setHitboxRectangle(60,60);
 
             enemy->position[0] = rand()%250;
             enemy->position[1] = rand()%250;
 
             enemy->addComponent<EnemyAI>();
 
-            owner->storage->addObject("enemy_" + std::to_string(enemy_number++), enemy);
+            enemy->record("enemy_" + std::to_string(enemy_number++));
         }
     }
 };
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(600, 600), "demo game");
-    DataStorage* data_storage;
-    GraphicsManager* graphics_manager = GraphicsManager::getInstance();
-    ScriptManager* script_manager = ScriptManager::getInstance();
-    PhysicsManager* physics_manager = PhysicsManager::getInstance();
-    sf::Clock clock;
+    qqq::GameObject player;
+    player.addComponent<qqq::Renderer>();
+    player.getComponent<qqq::Renderer>()->loadTexture("image.png");
+    player.getComponent<qqq::Renderer>()->createSprite();
 
-    GameObject player;
-    player.addComponent<Renderer>();
-    player.getComponent<Renderer>()->loadTexture("image.png");
-    player.getComponent<Renderer>()->createSprite();
-
-    player.addComponent<Collider>();
-    player.getComponent<Collider>()->setHitboxRectangle(90,60);
+    player.addComponent<qqq::Collider>();
+    player.getComponent<qqq::Collider>()->setHitboxRectangle(90,60);
 
     player.position[0] = 300;
     player.position[1] = 300;
@@ -155,46 +133,17 @@ int main()
     player.addComponent<Health>();
     player.getComponent<Health>()->health = 1;  
 
-    std::cout << "Nixuya ne kompillitsa"<< std::endl;
-    data_storage->addObject("player", &player);
-    std::cout << "Nixuya ne kompillitsa"<< std::endl;
+    player.record("player");
     
-    GameObject enemy_spawner;
+
+    qqq::GameObject enemy_spawner;
     enemy_spawner.addComponent<EnemySpawner>();
 
-    data_storage->addObject("enemy_spawner", &enemy_spawner);
+    enemy_spawner.record("enemy_spawner");
 
-    sf::Event event;
-    while (window.isOpen())
-	{
-        float dt = clock.getElapsedTime().asSeconds();
-        clock.restart();
-
-        //script_manager->updateAll(dt);
-        physics_manager->checkAllCollisions();
-
-        //if (data_storage->getObject("player") == nullptr)
-        if (player.getComponent<Health>()->health <= 0)
-        {
-            std::cout << "game over\n";
-            window.close();
-        }
-        
-        window.clear(sf::Color(255, 255, 255));
-        graphics_manager->drawAll(window);
-
-        while (window.pollEvent(event))
-	    {
-            if (event.type == sf::Event::Closed)
-                window.close();
-	    }
-    }
-
-    // delete data_storage;
-    // delete graphics_manager;
-    // delete script_manager;
+    qqq::runGame(600, 600, "Demo game");
 
     return 0;
 }
 
-// g++ demo_game.cpp Component.cpp DataStorage.cpp PhysicsManager.cpp GraphicsManager.cpp ScriptManager.cpp -o demo_game -lsfml-graphics -lsfml-window -lsfml-system
+// g++ demo_game.cpp Component.cpp DataStorage.cpp PhysicsManager.cpp GraphicsManager.cpp ScriptManager.cpp Singleton.cpp qqq_functions.cpp -o demo_game -lsfml-graphics -lsfml-window -lsfml-system

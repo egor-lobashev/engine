@@ -108,21 +108,11 @@ bool checkOneObject( std::vector < std::vector < float > > absolute_points_coord
     return true;
 }
 
-PhysicsManager* PhysicsManager::instance = nullptr;
-
-PhysicsManager* PhysicsManager::getInstance(){
-
-    if(!instance){
-        instance = new PhysicsManager;
-    }
-    return instance;
-}
-
-bool PhysicsManager::addCollider(Component* new_collider){
+bool qqqP::PhysicsManager::addCollider(qqq::Component* new_collider){
 
     try
     {
-        collider_objects.push_back(static_cast<Collider*>(new_collider));
+        collider_objects.push_back(static_cast<qqq::Collider*>(new_collider));
         return true;
     }
     catch(...)
@@ -131,7 +121,7 @@ bool PhysicsManager::addCollider(Component* new_collider){
     }
 }
 
-bool PhysicsManager::removeCollider(Component* removing_collider){
+bool qqqP::PhysicsManager::removeCollider(qqq::Component* removing_collider){
 
     for(int i = 0 ; i < collider_objects.size() ; i++){
 
@@ -145,7 +135,7 @@ bool PhysicsManager::removeCollider(Component* removing_collider){
     }
 }
 
-void PhysicsManager::checkForCollide( Collider* first , Collider* second )
+void qqqP::PhysicsManager::checkForCollide( qqq::Collider* first , qqq::Collider* second )
 {   
     //////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -190,7 +180,7 @@ void PhysicsManager::checkForCollide( Collider* first , Collider* second )
     }
 }
 
-void PhysicsManager::checkAllCollisions()
+void qqqP::PhysicsManager::checkAllCollisions()
 {
     for (int i = 0; i < collider_objects.size(); i++)
     {
