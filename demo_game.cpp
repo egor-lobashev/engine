@@ -39,11 +39,11 @@ public:
 
     void update()
     {
-        //printf("hp: %d\n", health);
+        printf("hp: %d\n", health);
 
         if (health <= 0)
         {
-            //owner->storage->deleteObject(owner->id_in_data_storage);
+            printf("GAME OVER\n\n\n");
         }
     }
 };
@@ -74,10 +74,14 @@ public:
         owner->position[1] += ry * speed * dt;
 
         cooldown -= dt;
-        if ((cooldown <= 0) and (distance <= 20))
+    }
+
+    void ifCollision(qqq::GameObject* another)
+    {
+        if ((another->id_in_data_storage == "player") and (cooldown <= 0))
         {
             cooldown = 5;
-            player->getComponent<Health>()->health -= 1;
+            another->getComponent<Health>()->health -= 1;
         }
     }
 };
