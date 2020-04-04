@@ -23,9 +23,9 @@ void qqqP::GraphicsManager::drawAll(sf::RenderWindow& window){
                 x = collider -> getPointByIndex(i)[0] + renderer ->owner -> position[0];
                 y =  collider -> getPointByIndex(i)[1] + renderer ->owner -> position[1];
                 lines.append( sf::Vertex( sf::Vector2f (x,y) , sf::Color::Black , sf::Vector2f (0.0f,0.0f) ) ) ;   
-                lines.setPrimitiveType ( sf::LinesStrip ) ;
             }
 
+            lines.setPrimitiveType ( sf::LinesStrip );
             lines.append( lines[0] ) ;
             window.draw(lines);
         }

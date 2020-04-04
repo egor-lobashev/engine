@@ -41,6 +41,16 @@ bool qqqP::DataStorage::deleteObject(std::string object_name){
     return false;
 }
 
+void qqqP::DataStorage::setVectorOfRelativeHitboxCoordinatesByName(std::string name_of_picture, std::vector < std::vector<int> > vector_of_coordinates)
+{
+    map_of_relative_hitbox_coordinates_for_each_picture[name_of_picture] = vector_of_coordinates;
+}
+
+std::vector < std::vector<int> > qqqP::DataStorage::getVectorOfRelativeHitboxCoordinatesByName(std::string name_of_picture)
+{
+    return map_of_relative_hitbox_coordinates_for_each_picture[name_of_picture];
+}
+
 qqq::GameObject* qqqP::DataStorage::getObject(std::string object_name){
     
     return map_of_game_objects[object_name];
