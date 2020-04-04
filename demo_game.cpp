@@ -153,9 +153,11 @@ int main()
     player.addComponent<Controller>();
 
     player.addComponent<Health>();
-    player.getComponent<Health>()->health = 1;
+    player.getComponent<Health>()->health = 1;  
 
+    std::cout << "Nixuya ne kompillitsa"<< std::endl;
     data_storage->addObject("player", &player);
+    std::cout << "Nixuya ne kompillitsa"<< std::endl;
     
     GameObject enemy_spawner;
     enemy_spawner.addComponent<EnemySpawner>();

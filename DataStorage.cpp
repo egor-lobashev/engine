@@ -18,11 +18,12 @@ DataStorage::~DataStorage(){
 };
 
 bool DataStorage::addObject(std::string object_name , GameObject* obj){
-
+    
     obj->id_in_data_storage = object_name;
     obj->storage = this;
+
     try
-    {
+    { 
         map_of_game_objects[object_name] = obj;
         return true;
     }
