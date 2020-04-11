@@ -12,11 +12,17 @@
 class qqq::GameObject
 {
 public:
-    float position[2];
+    std::vector <float> position = {0,0};
+    
+    std::vector <float> velocity_before_hitting = {0,0};
+    std::vector <float> velocity_after_hitting = {0,0};
+    float mass = 5;
+
+    bool collider = true;////////TEST , DELETE IT
+
     bool dynamic = false;
     std::string id_in_data_storage;
-    float mass = 1;
-    std::vector<qqq::Component*> scripts;
+    std::vector <qqq::Component*> scripts;
 
     ~GameObject()
     {
@@ -114,9 +120,48 @@ public:
         singleton->data_storage.addObject(id, this );
     }
 
+    void updateObject()
+    {
+        qqqP::Singleton* singleton = qqqP::Singleton::getInstance();
+
+        float dt = singleton -> dt;
+
+        float resistance_of_field = 0.05;
+
+        for ( int i = 0 ; i < 2 ; ++i)
+        {
+            if( velocity_after_hitting[i] > 0 and velocity_after_hitting[i] - resistance_of_field > 0  )
+            {
+                velocity_after_hitting[i] -= resistance_of_field;
+            }
+            else if( velocity_after_hitting[i] < 0 and velocity_after_hitting[i] + resistance_of_field < 0 )
+            {
+                velocity_after_hitting[i] += resistance_of_field;
+            }
+            else
+            {
+                velocity_after_hitting[i] = 0;
+            }
+        }
+
+        
+        if ( velocity_after_hitting != std::vector<float>(2,0) )
+        {
+            changeCoordinatesBy( { velocity_after_hitting[0] * dt * 2 , velocity_after_hitting[1] * dt * 2 } );
+        }
+    }
+
+    void changeCoordinatesBy( std::vector <float> changing_of_coordinates )
+    {
+        for( int i = 0 ; i < 2 ; ++i)
+        {
+            position[i] += changing_of_coordinates[i];
+        }
+    }
+
 private:
     
-    std::vector<qqq::Component*> components;
+std::vector<qqq::Component*> components;   
     
 };
 

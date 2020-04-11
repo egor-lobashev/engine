@@ -15,6 +15,7 @@ void qqq::runGame(int window_width, int window_height, std::string window_name)
 
         singleton->script_manager.updateAll();
         singleton->physics_manager.checkAllCollisions();
+        singleton->data_storage.updateAll();
         
         window.clear(sf::Color(255, 255, 255));
         singleton->graphics_manager.drawAll(window);

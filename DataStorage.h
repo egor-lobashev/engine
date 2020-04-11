@@ -14,6 +14,7 @@ class qqqP::DataStorage{
         bool addObject(std::string object_name, qqq::GameObject* obj);
         bool deleteObject(std::string object_name);
         void setVectorOfRelativeHitboxCoordinatesByName(std::string name_of_picture, std::vector < std::vector<int> > vector_of_coordinates);
+        void updateAll();
         std::vector < std::vector <int> > getVectorOfRelativeHitboxCoordinatesByName(std::string name_of_picture);
         qqq::GameObject* getObject(std::string object_name);
         std::vector<qqq::GameObject*> getAll();

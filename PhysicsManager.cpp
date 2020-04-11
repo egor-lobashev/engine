@@ -107,6 +107,9 @@ bool checkOneObject( std::vector < std::vector < float > > absolute_points_coord
 
     return true;
 }
+////////////////////////////////////////////////////////////
+//////////////// ADDING AND DELETING OBJECTS ///////////////
+////////////////////////////////////////////////////////////
 
 bool qqqP::PhysicsManager::addCollider(qqq::Component* new_collider){
 
@@ -134,6 +137,9 @@ bool qqqP::PhysicsManager::removeCollider(qqq::Component* removing_collider){
         return false;
     }
 }
+////////////////////////////////////////////////////////////
+///////////////// GETTING OBJECTS //////////////////////////
+////////////////////////////////////////////////////////////
 
 std::vector < qqq::Collider* > qqqP::PhysicsManager::getAll()
 {
@@ -146,6 +152,9 @@ std::vector < qqq::Collider* > qqqP::PhysicsManager::getAll()
 
     return output_colliders;
 }
+////////////////////////////////////////////////////////////
+////////////////// COLLISION OF OBJECTS ////////////////////
+////////////////////////////////////////////////////////////
 
 bool qqqP::PhysicsManager::checkForCollide( qqq::Collider* first , qqq::Collider* second )
 {   
@@ -204,7 +213,7 @@ void qqqP::PhysicsManager::checkAllCollisions()
             {
                 if(checkForCollide(collider_objects[i], collider_objects[j]))
                 {
-                    std::cout << collider_objects[i]->owner->id_in_data_storage << " has collided with " << collider_objects[j]->owner->id_in_data_storage<<std::endl;
+                    //std::cout << collider_objects[i]->owner->id_in_data_storage << " has collided with " << collider_objects[j]->owner->id_in_data_storage<<std::endl;
                     for (qqq::Component* script : collider_objects[i]->owner->scripts)       
                     {
                         static_cast<qqq::Script*>(script)->ifCollision(collider_objects[j]->owner);

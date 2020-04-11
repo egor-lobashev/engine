@@ -39,6 +39,11 @@ bool qqq::Collider::canThisObjBounce(){
 
 }
 
+void qqq::Collider::setBounceType( bool object_type )
+{
+    this_object_can_bounce = object_type;
+}
+
 void qqq::Collider::setBodyPointClockwise( std::vector < float > point )
 {
     relative_hitbox_coordinates.push_back( point );

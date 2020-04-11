@@ -17,6 +17,8 @@ qqqP::DataStorage::~DataStorage(){
     }
 };
 
+//////////////DELETING AND ADDING OBJECTS///////////////////
+
 bool qqqP::DataStorage::addObject(std::string object_name, qqq::GameObject* obj){
 
     obj->id_in_data_storage = object_name;
@@ -41,6 +43,8 @@ bool qqqP::DataStorage::deleteObject(std::string object_name){
     return false;
 }
 
+////////////// ABOUT HITBOX ////////////////////////////////
+
 void qqqP::DataStorage::setVectorOfRelativeHitboxCoordinatesByName(std::string name_of_picture, std::vector < std::vector<int> > vector_of_coordinates)
 {
     map_of_relative_hitbox_coordinates_for_each_picture[name_of_picture] = vector_of_coordinates;
@@ -50,6 +54,8 @@ std::vector < std::vector<int> > qqqP::DataStorage::getVectorOfRelativeHitboxCoo
 {
     return map_of_relative_hitbox_coordinates_for_each_picture[name_of_picture];
 }
+
+////////////////////GETTING OBJECTS/////////////////////////
 
 qqq::GameObject* qqqP::DataStorage::getObject(std::string object_name){
     
@@ -64,4 +70,14 @@ std::vector <qqq::GameObject*> qqqP::DataStorage:: getAll(){
     }
 
     return output_vector;
+}
+
+///////////////////UPDATING OBJECTS/////////////////////////
+
+void qqqP::DataStorage::updateAll()
+{
+    for( auto object : map_of_game_objects )
+    {
+        object.second -> updateObject();
+    }
 }
