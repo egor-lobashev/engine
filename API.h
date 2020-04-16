@@ -13,10 +13,14 @@ namespace qqqP
 namespace qqq
 {
     class GameObject;
+    
     class Component;
-    class Renderer;
-    class Script;
-    class Collider;
+        // components
+        class Renderer;
+        class Collider;
+        class Script;
+            // scripts
+            class BallReflection;
 
     void runGame(int window_width, int window_height, std::string window_name);
     qqq::GameObject* getObject(std::string name);

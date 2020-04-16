@@ -71,13 +71,3 @@ std::vector <qqq::GameObject*> qqqP::DataStorage:: getAll(){
 
     return output_vector;
 }
-
-///////////////////UPDATING OBJECTS/////////////////////////
-
-void qqqP::DataStorage::updateAll()
-{
-    for( auto object : map_of_game_objects )
-    {
-        object.second -> updateObject();
-    }
-}

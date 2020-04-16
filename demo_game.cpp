@@ -3,108 +3,61 @@
 #include "GameObject.h"
 #include "API.h"
 
-class PrototypeOfFuncionIfCollide : public qqq::Script
+
+class Resistance: public qqq::Script
 {
-    public:
+public:
+    void update()
+    {
+        float dt = sqrt(2);//qqq::relativeTime();
 
-        void ifCollision(qqq::GameObject* another)
-        {   
-            
-            if( this -> owner -> collider)
+        float resistance_of_field = 0.05;
+
+        for ( int i = 0 ; i < 2 ; ++i)
+        {
+            if( owner->velocity[i] > 0 and owner->velocity[i] - resistance_of_field > 0  )
             {
-
-                double sin = -1;
-                double cos = 0;
-
-            
-                if (this -> owner -> position[0] == another -> position[0])
-                {
-                    if (this -> owner -> position[1] < another -> position[1])
-                    {
-                        sin = 1;
-                        cos = 0;
-                    }
-                    else 
-                    {
-                        sin = -1;
-                        cos = 0;
-                    }
-                }
-                else {
-                    double k = (another -> position[1] - this -> owner -> position[1]) / (another -> position[0] - this -> owner -> position[0]);
-                    sin = k / (sqrt(pow(k, 2) + 1));
-                    cos = 1 / (sqrt(pow(k, 2) + 1));
-                }
-
-                // зададим через матрицу перехода свзять координат в разных СО
-
-                float V_csi_before_1_obj = cos * this -> owner -> velocity_before_hitting[0] + sin * this -> owner -> velocity_before_hitting[1];
-                float V_eta_before_1_obj = (-1) * sin * this -> owner -> velocity_before_hitting[0] + cos * this -> owner -> velocity_before_hitting[1];
-
-                float V_csi_before_2_obj = cos * another -> velocity_before_hitting[0] + sin * another -> velocity_before_hitting[1];
-                float V_eta_before_2_obj = (-1) * sin * another -> velocity_before_hitting[0] + cos * another -> velocity_before_hitting[1];
-
-                float csi_coord_1_obj =  cos * this -> owner -> position[0] + sin * this -> owner -> position[1];
-                float eta_coord_1_obj = (-1) * sin * this -> owner -> position[0] + cos * this -> owner -> position[1];
-
-                float csi_coord_2_obj =  cos * another -> position[0] + sin * another -> position[1];
-                float eta_coord_2_obj = (-1) * sin * another -> position[0] + cos * another -> position[1];
-                // выразил скорости в новой СК , теперь поменяем нормальные составляющие и проверим, требуется ли в данном 
-                // рассталкивать эти обьекты
-
-                if (    csi_coord_2_obj > csi_coord_1_obj and V_csi_before_2_obj < 0 and V_csi_before_1_obj > 0 or
-                        csi_coord_2_obj < csi_coord_1_obj and V_csi_before_2_obj > 0 and V_csi_before_1_obj < 0 or
-                        csi_coord_2_obj > csi_coord_1_obj and V_csi_before_1_obj - V_csi_before_2_obj > 0       or
-                        csi_coord_2_obj < csi_coord_1_obj and V_csi_before_1_obj - V_csi_before_2_obj < 0           )
-                {
-
-                    V_csi_before_1_obj = V_csi_before_2_obj;
-
-                    // теперь переходим к старым координатам
-
-                    double V_x_1_obj_after_hitting = cos * V_csi_before_1_obj - sin * V_eta_before_1_obj;
-			        double V_y_1_obj_after_hitting = sin * V_csi_before_1_obj + cos * V_eta_before_1_obj;
-                    
-                    this -> owner -> velocity_after_hitting[0] = V_x_1_obj_after_hitting;
-                    this -> owner -> velocity_after_hitting[1] = V_y_1_obj_after_hitting;
-
-                }
+                owner->velocity[i] -= resistance_of_field;
+            }
+            else if( owner->velocity[i] < 0 and owner->velocity[i] + resistance_of_field < 0 )
+            {
+                owner->velocity[i] += resistance_of_field;
+            }
+            else
+            {
+                owner->velocity[i] = 0;
             }
         }
+    }
 };
 
 class Controller: public qqq::Script
 {
 public:
-    float speed = 100;
+    float a = 100;
 
     void update()
     {
-        qqqP::Singleton* singleton = qqqP::Singleton::getInstance();
         float dt = qqq::relativeTime();
-
-        owner -> velocity_before_hitting = {0,0};
-
+        
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
         {
-            owner -> position[0] += speed*dt;
-            owner -> velocity_before_hitting[0] = speed;
+            owner -> velocity[0] += a*dt;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
         {
-            owner -> position[0] -= speed*dt;
-            owner -> velocity_before_hitting[0] = -speed;
+            owner -> velocity[0] -= a*dt;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
         {
-            owner -> position[1] += speed*dt;
-            owner -> velocity_before_hitting[1] = speed;
+            owner -> velocity[1] += a*dt;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
         {
-            owner -> position[1] -= speed*dt;
-            owner -> velocity_before_hitting[1] = -speed;
+            owner -> velocity[1] -= a*dt;
         }
+
+        owner -> changeCoordinatesBy({ owner->velocity[0] * dt , owner->velocity[1] * dt });
     }
 };
 
@@ -127,7 +80,7 @@ public:
 class EnemyAI: public qqq::Script
 {
 public:
-    float speed = 0;
+    float speed = 100;
     float cooldown = 0;
 
     void update()
@@ -146,8 +99,8 @@ public:
         rx /= distance;
         ry /= distance;
         
-        owner -> velocity_before_hitting[0] = rx * speed;
-        owner -> velocity_before_hitting[1] = ry * speed;
+        owner -> velocity[0] = rx * speed;
+        owner -> velocity[1] = ry * speed;
         owner -> changeCoordinatesBy({ rx * speed * dt , ry * speed * dt });
 
         cooldown -= dt;
@@ -192,12 +145,14 @@ public:
             enemy->addComponent<qqq::Collider>();
             enemy->getComponent<qqq::Collider>()->setHitboxRectangle(60,60);
 
-            enemy -> addComponent<PrototypeOfFuncionIfCollide>();
+            enemy -> addComponent<qqq::BallReflection>();
 
+            enemy -> addComponent<Resistance>();
+            
             enemy->position[0] = rand()%250;
             enemy->position[1] = rand()%250;
 
-            enemy->addComponent<EnemyAI>();
+            //enemy->addComponent<EnemyAI>();
 
             enemy->record("enemy_" + std::to_string(enemy_number++));
         }
@@ -209,7 +164,6 @@ int EnemySpawner::quantity_of_enemies = 0;
 int main()
 {
     qqq::GameObject player;
-    player.collider = false;
     player.addComponent<qqq::Renderer>();
     player.getComponent<qqq::Renderer>()->loadTexture("image.png");
     player.getComponent<qqq::Renderer>()->createSprite();
@@ -217,7 +171,9 @@ int main()
     player.addComponent<qqq::Collider>();
     player.getComponent<qqq::Collider>()->setHitboxRectangle(90,60);
 
-    player.addComponent<PrototypeOfFuncionIfCollide>();
+    player.addComponent<qqq::BallReflection>();
+
+    player.addComponent<Resistance>();
 
     player.position[0] = 300;
     player.position[1] = 300;
