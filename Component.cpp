@@ -33,17 +33,6 @@ sf::Sprite* qqq::Renderer::getSprite()
 
 ////////////////////////////////////
 
-bool qqq::Collider::canThisObjBounce(){
-    
-    return this_object_can_bounce;
-
-}
-
-void qqq::Collider::setBounceType( bool object_type )
-{
-    this_object_can_bounce = object_type;
-}
-
 void qqq::Collider::setBodyPointClockwise( std::vector < float > point )
 {
     relative_hitbox_coordinates.push_back( point );

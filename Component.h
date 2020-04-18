@@ -44,8 +44,6 @@ public:
 class qqq::Collider: public qqq::Component
 {   
     public:
-        bool canThisObjBounce();
-        void setBounceType(bool bounce_type);
         void setBodyPointClockwise( std::vector < float > point );
         int getQuantityOfBodyPoints();
         std::vector < float > getPointByIndex(int index);
@@ -53,7 +51,6 @@ class qqq::Collider: public qqq::Component
 
     private:
         std::vector<std::vector<float>> relative_hitbox_coordinates;
-        bool this_object_can_bounce = true;
 };
 
 #endif
