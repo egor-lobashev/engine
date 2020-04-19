@@ -14,11 +14,13 @@ class qqq::GameObject
 {
 public:
     std::vector <float> position = {0,0};
+    std::vector <float> old_position = {0,0};
     std::vector <float> velocity = {0,0};
 
     bool dynamic = false;
     std::string id_in_data_storage;
     std::vector <qqq::Component*> scripts;
+    std::vector <qqq::Component*> colliders; /////////////////////////
 
     ~GameObject()
     {
@@ -53,6 +55,7 @@ public:
             else if ( typeid(T).name() == typeid(qqq::Collider).name() )
             {
                 singleton->physics_manager.addCollider(new_component);
+                colliders.push_back(new_component);
             }
 
             return true;
@@ -119,7 +122,8 @@ public:
     void changeCoordinatesBy( std::vector <float> changing_of_coordinates )
     {
         for( int i = 0 ; i < 2 ; ++i)
-        {
+        {   
+            old_position[i] = position[i];
             position[i] += changing_of_coordinates[i];
         }
     }

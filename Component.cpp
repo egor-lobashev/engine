@@ -36,6 +36,7 @@ sf::Sprite* qqq::Renderer::getSprite()
 void qqq::Collider::setBodyPointClockwise( std::vector < float > point )
 {
     relative_hitbox_coordinates.push_back( point );
+    absolute_hitbox_coordinates.push_back({ point[0] + this -> owner -> position[0] , point[1] + this -> owner -> position[1] });
 }
 
 int qqq::Collider::getQuantityOfBodyPoints()
@@ -54,5 +55,16 @@ bool qqq::Collider::setHitboxRectangle(float height, float width)
     setBodyPointClockwise( { width*1 , height*0 } );
     setBodyPointClockwise( { width*1 , height*1 } );
     setBodyPointClockwise( { width*0 , height*1 } );
+
     return true;
+}
+
+std::vector< std::vector<float> > qqq::Collider::getAbsoluteHitboxCoordinates()
+{
+    return absolute_hitbox_coordinates;
+}
+
+std::vector< std::vector<float> > qqq::Collider::getRelativeHitboxCoordinates()
+{
+    return relative_hitbox_coordinates;
 }

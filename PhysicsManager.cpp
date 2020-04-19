@@ -212,8 +212,8 @@ void qqqP::PhysicsManager::checkAllCollisions()
             if (i > j)
             {
                 if(checkForCollide(collider_objects[i], collider_objects[j]))
-                {
-                    //std::cout << collider_objects[i]->owner->id_in_data_storage << " has collided with " << collider_objects[j]->owner->id_in_data_storage<<std::endl;
+                {  
+
                     for (qqq::Component* script : collider_objects[i]->owner->scripts)       
                     {
                         static_cast<qqq::Script*>(script)->ifCollision(collider_objects[j]->owner);
@@ -223,6 +223,7 @@ void qqqP::PhysicsManager::checkAllCollisions()
                     {
                         static_cast<qqq::Script*>(script)->ifCollision(collider_objects[i]->owner);
                     }
+                    
                 }
             }
         }

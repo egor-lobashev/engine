@@ -21,6 +21,8 @@ namespace qqq
         class Script;
             // scripts
             class BallReflection;
+            class PolygonReflection;
+
 
     void runGame(int window_width, int window_height, std::string window_name);
     qqq::GameObject* getObject(std::string name);

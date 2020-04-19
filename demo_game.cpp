@@ -8,10 +8,11 @@ class Resistance: public qqq::Script
 {
 public:
     void update()
-    {
+    {   
+        
         float dt = sqrt(2);//qqq::relativeTime();
 
-        float resistance_of_field = 0.05;
+        float resistance_of_field = 0.1;
 
         for ( int i = 0 ; i < 2 ; ++i)
         {
@@ -34,7 +35,7 @@ public:
 class Controller: public qqq::Script
 {
 public:
-    float a = 100;
+    float a = 1000;
 
     void update()
     {
@@ -57,7 +58,8 @@ public:
             owner -> velocity[1] -= a*dt;
         }
 
-        owner -> changeCoordinatesBy({ owner->velocity[0] * dt , owner->velocity[1] * dt });
+        // у игровых обьектов менять можно только скорость!!!!!!!!!!!!!!!!!!!!!!!!!!1
+        // не менять координаты самому это делается специальная функция
     }
 };
 
@@ -80,7 +82,7 @@ public:
 class EnemyAI: public qqq::Script
 {
 public:
-    float speed = 100;
+    float speed = 1000;
     float cooldown = 0;
 
     void update()
@@ -145,7 +147,7 @@ public:
             enemy->addComponent<qqq::Collider>();
             enemy->getComponent<qqq::Collider>()->setHitboxRectangle(60,60);
 
-            enemy -> addComponent<qqq::BallReflection>();
+            enemy -> addComponent<qqq::PolygonReflection>();
 
             enemy -> addComponent<Resistance>();
             
@@ -171,7 +173,7 @@ int main()
     player.addComponent<qqq::Collider>();
     player.getComponent<qqq::Collider>()->setHitboxRectangle(90,60);
 
-    player.addComponent<qqq::BallReflection>();
+    player.addComponent<qqq::PolygonReflection>();
 
     player.addComponent<Resistance>();
 

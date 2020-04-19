@@ -48,9 +48,12 @@ class qqq::Collider: public qqq::Component
         int getQuantityOfBodyPoints();
         std::vector < float > getPointByIndex(int index);
         bool setHitboxRectangle(float height , float width);
+        std::vector< std::vector<float> > getAbsoluteHitboxCoordinates();
+        std::vector< std::vector<float> > getRelativeHitboxCoordinates();
 
     private:
-        std::vector<std::vector<float>> relative_hitbox_coordinates;
+        std::vector< std::vector<float> > relative_hitbox_coordinates;
+        std::vector< std::vector<float> > absolute_hitbox_coordinates;
 };
 
 #endif
