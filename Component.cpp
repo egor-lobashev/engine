@@ -68,3 +68,8 @@ std::vector< std::vector<float> > qqq::Collider::getRelativeHitboxCoordinates()
 {
     return relative_hitbox_coordinates;
 }
+
+void qqq::Collider::setAbsoluteHitboxCoordinates(std::vector< std::vector<float> > absolute_hitbox_coordinates)
+{
+    this->absolute_hitbox_coordinates = absolute_hitbox_coordinates;
+}

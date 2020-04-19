@@ -50,6 +50,8 @@ class qqq::Collider: public qqq::Component
         bool setHitboxRectangle(float height , float width);
         std::vector< std::vector<float> > getAbsoluteHitboxCoordinates();
         std::vector< std::vector<float> > getRelativeHitboxCoordinates();
+        void setAbsoluteHitboxCoordinates(std::vector< std::vector<float> > absolute_hitbox_coordinates);
+        
 
     private:
         std::vector< std::vector<float> > relative_hitbox_coordinates;

@@ -4,6 +4,33 @@
 #include "API.h"
 
 
+class UpdateColliderObject: public qqq::Script
+{   
+    public:
+
+        void update()
+        {   
+            qqq::Collider* collider = static_cast<qqq::Collider*>(owner->colliders[0]);
+            int quantity_of_points = collider->getQuantityOfBodyPoints();
+
+            std::vector <std::vector<float>> absolute_hitbox_coordinates;
+            std::vector <std::vector<float>> relative_hitbox_coordinates = collider->getRelativeHitboxCoordinates();
+
+            float 
+            x = owner->position[0],
+            y = owner->position[1];
+
+            for(int i = 0 ; i < quantity_of_points ; ++i)
+            {
+                absolute_hitbox_coordinates.push_back({ relative_hitbox_coordinates[i][0] + x , relative_hitbox_coordinates[i][1] + y });
+            }
+
+            collider->setAbsoluteHitboxCoordinates(absolute_hitbox_coordinates);
+        }
+
+
+};
+
 class Resistance: public qqq::Script
 {
 public:
@@ -82,7 +109,7 @@ public:
 class EnemyAI: public qqq::Script
 {
 public:
-    float speed = 1000;
+    float speed = 10;
     float cooldown = 0;
 
     void update()
@@ -103,7 +130,6 @@ public:
         
         owner -> velocity[0] = rx * speed;
         owner -> velocity[1] = ry * speed;
-        owner -> changeCoordinatesBy({ rx * speed * dt , ry * speed * dt });
 
         cooldown -= dt;
     }
@@ -146,6 +172,7 @@ public:
 
             enemy->addComponent<qqq::Collider>();
             enemy->getComponent<qqq::Collider>()->setHitboxRectangle(60,60);
+            enemy->addComponent<UpdateColliderObject>();
 
             enemy -> addComponent<qqq::PolygonReflection>();
 
@@ -154,7 +181,7 @@ public:
             enemy->position[0] = rand()%250;
             enemy->position[1] = rand()%250;
 
-            //enemy->addComponent<EnemyAI>();
+            enemy->addComponent<EnemyAI>();
 
             enemy->record("enemy_" + std::to_string(enemy_number++));
         }
@@ -181,6 +208,7 @@ int main()
     player.position[1] = 300;
 
     player.addComponent<Controller>();
+    player.addComponent<UpdateColliderObject>();
 
     player.addComponent<Health>();
     player.getComponent<Health>()->health = 1;  
