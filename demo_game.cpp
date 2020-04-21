@@ -152,7 +152,7 @@ public:
     float timer = 1;
     int enemy_number = 0;
 
-    static int quantity_of_enemies ;
+    static int quantity_of_enemies;
 
     void update()
     {
@@ -228,3 +228,4 @@ int main()
 }
 
 // g++ demo_game.cpp Component.cpp DataStorage.cpp PhysicsManager.cpp GraphicsManager.cpp ScriptManager.cpp Singleton.cpp qqq_functions.cpp -o demo_game -lsfml-graphics -lsfml-window -lsfml-system
+// ./demo_game

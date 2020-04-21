@@ -119,13 +119,12 @@ public:
         singleton->data_storage.addObject(id, this );
     }
 
-    void changeCoordinatesBy( std::vector <float> changing_of_coordinates )
+    void moveVdt()
     {
-        for( int i = 0 ; i < 2 ; ++i)
-        {   
-            old_position[i] = position[i];
-            position[i] += changing_of_coordinates[i];
-        }
+        float dt = qqq::relativeTime();
+        old_position = position;
+        position[0] += velocity[0] * dt;
+        position[1] += velocity[1] * dt;
     }
 
 private:

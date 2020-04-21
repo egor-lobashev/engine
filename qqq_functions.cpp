@@ -264,7 +264,6 @@ void qqq::runGame(int window_width, int window_height, std::string window_name)
         singleton->dt = singleton->clock.getElapsedTime().asSeconds();
         singleton->clock.restart();
 
-        
         singleton->script_manager.updateAll();
         singleton->physics_manager.checkAllCollisions();
         
@@ -303,7 +302,7 @@ float qqq::relativeTime()
 void qqq::BallReflection::update()  // move this function to PhysicsManager or somwhere else
 {
     float dt = qqq::relativeTime();
-    owner -> changeCoordinatesBy({ owner->velocity[0] * dt , owner->velocity[1] * dt });
+    owner -> moveVdt();
 }
 
 void qqq::BallReflection::ifCollision(qqq::GameObject* another)
@@ -376,7 +375,7 @@ void qqq::BallReflection::ifCollision(qqq::GameObject* another)
 void qqq::PolygonReflection::update()
 {
     float dt = qqq::relativeTime();
-    owner -> changeCoordinatesBy({ owner->velocity[0] * dt , owner->velocity[1] * dt });
+    owner -> moveVdt();
 }
 
 void qqq::PolygonReflection::ifCollision(qqq::GameObject* another)

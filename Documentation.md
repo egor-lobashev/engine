@@ -20,8 +20,8 @@ Example of using after creating a gameObject
 ```
 qqq::GameObject object;
 object.addComponent<qqq::Renderer>()
-object.getComponent<qqq::Renderer>->loadTexture("image.png");
-object.getComponent<qqq::Renderer>->createSprite();
+object.getComponent<qqq::Renderer>()->loadTexture("image.png");
+object.getComponent<qqq::Renderer>()->createSprite();
 ```
 ### Script
 Use it to write logic

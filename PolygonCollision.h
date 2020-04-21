@@ -146,7 +146,7 @@ public:
 void qqq::PolygonReflection::update()
 {
     float dt = qqq::relativeTime();
-    owner -> changeCoordinatesBy({ owner->velocity[0] * dt , owner->velocity[1] * dt });
+    owner -> moveVdt();
     
 }
 
