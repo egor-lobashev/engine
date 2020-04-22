@@ -43,7 +43,7 @@ public:
             components[components.size() - 1]->owner = this;
             qqqP::Singleton* singleton = qqqP::Singleton::getInstance();
             
-            if (typeid(T).name() == typeid(qqq::Renderer).name())
+            if (std::is_base_of<qqq::RendererBase, T>())
             {
                 singleton->graphics_manager.addRenderer(new_component);
             }

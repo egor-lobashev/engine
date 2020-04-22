@@ -6,7 +6,7 @@
 
 void qqqP::GraphicsManager::drawAll(sf::RenderWindow& window){
 
-    for (qqq::Renderer* renderer: renderers){
+    for (qqq::RendererBase* renderer: renderers){
         renderer->draw(window);
 
         ////////////////////////////////////////////
@@ -41,7 +41,7 @@ bool qqqP::GraphicsManager::addRenderer(qqq::Component* new_renderer)
 {
     try
     {
-        renderers.push_back(static_cast<qqq::Renderer*>(new_renderer));
+        renderers.push_back(static_cast<qqq::RendererBase*>(new_renderer));
         return true;
     }
     catch(...)

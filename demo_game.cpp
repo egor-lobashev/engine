@@ -227,5 +227,5 @@ int main()
     return 0;
 }
 
-// g++ demo_game.cpp Component.cpp DataStorage.cpp PhysicsManager.cpp GraphicsManager.cpp ScriptManager.cpp Singleton.cpp qqq_functions.cpp -o demo_game -lsfml-graphics -lsfml-window -lsfml-system
+// g++ demo_game.cpp Component.cpp DataStorage.cpp PhysicsManager.cpp GraphicsManager.cpp ScriptManager.cpp Singleton.cpp qqq_functions.cpp particles.cpp -o demo_game -lsfml-graphics -lsfml-window -lsfml-system
 // ./demo_game

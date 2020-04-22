@@ -1,109 +1,44 @@
 #include <SFML/Graphics.hpp>
 #include <random>
 #include "GameObject.h"
-#include "API.h"
+#include "particles.h"
 
-class ParticleDirectMotion: public qqq::Script
-{
-public:
-    float resistance=0;
-
-    void setParameters(float vx, float vy, float r)
-    {
-        owner->velocity[0] = vx;
-        owner->velocity[1] = vy;
-        resistance = r;
-    }
-
-    void update()
-    {
-        owner->moveVdt();
-
-        float dt = qqq::relativeTime();
-        owner->velocity[0] -= resistance * owner->velocity[0] * dt;
-        owner->velocity[1] -= resistance * owner->velocity[1] * dt;
-    }
-};
-
-class ParticleSource: public qqq::Script
-{
-public:
-    std::string type;
-    float frequency;
-    sf::Color color;
-    float v;
-
-    float timer;
-    static int quantity_of_particles;
-
-    void setParameters(std::string type, float frequency, sf::Color color, float v)
-    {
-        this->type = type;
-        this->frequency = frequency;
-        this->color = color;
-        this->v = v;
-
-        timer = 1/frequency;
-    }
-
-    void update()
-    {
-        timer -= qqq::relativeTime();
-        if(timer <= 0)
-        {
-            timer = 1/frequency;
-
-            qqq::GameObject *particle = new qqq::GameObject;
-
-            particle->addComponent<ParticleDirectMotion>();
-            float phi = (random()%100)/100.0 * (2*M_PI);
-            float vx = v*cos(phi);
-            float vy = v*sin(phi);
-            particle->getComponent<ParticleDirectMotion>()->setParameters(vx, vy, 0);
-
-            particle->addComponent<qqq::Renderer>();
-            particle->getComponent<qqq::Renderer>()->loadTexture("image.png");
-            particle->getComponent<qqq::Renderer>()->createSprite();
-
-            particle->position[0] = owner->position[0] + (random()%10 - 5);
-            particle->position[1] = owner->position[1] + (random()%10 - 5);
-
-            particle->record("particle_" + std::to_string(quantity_of_particles++));
-        }
-    }
-};
-
-int ParticleSource::quantity_of_particles = 0;
 
 int main()
 {
     qqq::GameObject source;
-    source.addComponent<ParticleSource>();
-    source.getComponent<ParticleSource>()->setParameters("ab", 1, sf::Color(0,0,0), 10);
+    source.addComponent<qqq::ParticleSource>();
+    source.getComponent<qqq::ParticleSource>()->setParameters(10, 50, 270, 0, {300, 1}, 0);
+    source.getComponent<qqq::ParticleSource>()->setCircle(5, 0, 130, 160);
 
-    source.position = {300,300};
+    source.position = {300,0};
 
     source.record("source");
+
+
+    qqq::GameObject source_2;
+    source_2.addComponent<qqq::ParticleSource>();
+    source_2.getComponent<qqq::ParticleSource>()->setParameters(10, 100, -1, 1);
+    source_2.getComponent<qqq::ParticleSource>()->setSquare(8, 200, 80, 50);
+
+    source_2.position = {450,350};
+
+    source_2.record("source_2");
+
+
+    qqq::GameObject source_3;
+    source_3.addComponent<qqq::ParticleSource>();
+    source_3.getComponent<qqq::ParticleSource>()->setParameters(1, 10, 0);
+    source_3.getComponent<qqq::ParticleSource>()->setPicture("image.png");
+
+    source_3.position = {0,500};
+
+    source_3.record("source_3");
 
     qqq::runGame(600, 600, "Particles");
 
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// g++ test_of_particles.cpp Component.cpp DataStorage.cpp PhysicsManager.cpp GraphicsManager.cpp ScriptManager.cpp Singleton.cpp qqq_functions.cpp -o test_of_particles -lsfml-graphics -lsfml-window -lsfml-system
+// g++ test_of_particles.cpp Component.cpp DataStorage.cpp PhysicsManager.cpp GraphicsManager.cpp ScriptManager.cpp Singleton.cpp qqq_functions.cpp particles.cpp -o test_of_particles -lsfml-graphics -lsfml-window -lsfml-system
 // ./test_of_particles
