@@ -1,7 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <random>
 #include "GameObject.h"
-#include "API.h"
+
 
 
 
@@ -167,7 +167,7 @@ public:
     float timer = 1;
     int enemy_number = 0;
 
-    static int quantity_of_enemies ;
+    static int quantity_of_enemies;
 
     void update()
     {
@@ -219,7 +219,7 @@ int main()
     player.getComponent<qqq::Collider>()->setBodyPointClockwise({30,90});
     player.getComponent<qqq::Collider>()->setBodyPointClockwise({15,45});
 
-    player.bouncy = false;
+    
 
     player.addComponent<qqq::PolygonReflection>();
 
@@ -248,4 +248,5 @@ int main()
     return 0;
 }
 
-// g++ demo_game.cpp Component.cpp DataStorage.cpp PhysicsManager.cpp GraphicsManager.cpp ScriptManager.cpp Singleton.cpp qqq_functions.cpp -o demo_game -lsfml-graphics -lsfml-window -lsfml-system
+// g++ demo_game.cpp Component.cpp DataStorage.cpp PhysicsManager.cpp GraphicsManager.cpp ScriptManager.cpp Singleton.cpp qqq_functions.cpp particles.cpp -o demo_game -lsfml-graphics -lsfml-window -lsfml-system
+// ./demo_game

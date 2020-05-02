@@ -46,7 +46,7 @@ public:
             components[components.size() - 1]->owner = this;
             qqqP::Singleton* singleton = qqqP::Singleton::getInstance();
             
-            if (typeid(T).name() == typeid(qqq::Renderer).name())
+            if (std::is_base_of<qqq::RendererBase, T>())
             {
                 singleton->graphics_manager.addRenderer(new_component);
             }
@@ -122,13 +122,12 @@ public:
         singleton->data_storage.addObject(id, this );
     }
 
-    void changeCoordinatesBy( std::vector <float> changing_of_coordinates )
+    void moveVdt()
     {
-        for( int i = 0 ; i < 2 ; ++i)
-        {   
-            old_position[i] = position[i];
-            position[i] += changing_of_coordinates[i];
-        }
+        float dt = qqq::relativeTime();
+        old_position = position;
+        position[0] += new_velocity[0] * dt;
+        position[1] += new_velocity[1] * dt;
     }
 
 private:

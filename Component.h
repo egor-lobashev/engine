@@ -15,7 +15,13 @@ public:
 
 /////////////////////////////////////////////////
 
-class qqq::Renderer: public qqq::Component
+class qqq::RendererBase: public qqq::Component
+{
+public:
+    virtual void draw(sf::RenderWindow& window) {}
+};
+
+class qqq::Renderer: public qqq::RendererBase
 {
 public:
     void draw(sf::RenderWindow& window);

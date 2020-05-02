@@ -12,7 +12,7 @@ class qqqP::GraphicsManager {
         bool addRenderer(qqq::Component* new_renderer);
         bool removeRenderer(qqq::Component* removing_renderer);
     private:
-        std::vector<qqq::Renderer*> renderers;
+        std::vector<qqq::RendererBase*> renderers;
 };
 
 #endif

@@ -3,8 +3,9 @@
 
 void qqqP::ScriptManager::updateAll()
 {
-    for (qqq::Script* script : scripts)
+    for (int i = 0; i < scripts.size(); i++)
     {
+        qqq::Script* script = scripts[i];
         script->update();
     }
 }

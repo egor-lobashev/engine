@@ -143,10 +143,10 @@
 // };
 
 
-// void qqq::PolygonReflection::update()
-// {
-//     float dt = qqq::relativeTime();
-//     owner -> changeCoordinatesBy({ owner->new_velocity[0] * dt , owner->new_velocity[1] * dt });
+void qqq::PolygonReflection::update()
+{
+    float dt = qqq::relativeTime();
+    owner -> moveVdt();
     
 // }
 
