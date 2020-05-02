@@ -1,14 +1,14 @@
 #include <vector>
 
 
-bool CheckPointInParallelogram( std::vector<float> point , std::vector< std::vector<float> > points_clockwise  )
+bool checkPointInPolygon( std::vector<float> point , std::vector< std::vector<float> > points_clockwise  )
 {
     std::vector<float> vector;
     std::vector<std::vector<float>> T = points_clockwise;
 
-    for(int i = 0 ; i < 4 ; ++i)
+    for(int i = 0 ; i < T.size() ; ++i)
     {
-        if( i == 3 )
+        if( i == T.size() - 1 )
         {
             float a = (T[0][0] - T[i][0])*(point[1] - T[i][1]) - (T[0][1] - T[i][1])*( point[0] - T[i][0] );
             vector.push_back(a);
@@ -36,16 +36,13 @@ bool CheckPointInParallelogram( std::vector<float> point , std::vector< std::vec
             iter_minus ++;
             
         }
-        else if( item == 0 )
-        {
-            return true;
-        }
+        
     }
-    if(iter_plus == 4)
+    if(iter_plus == T.size())
     {
         return true;
     }
-    else if (iter_minus == 4 )
+    else if (iter_minus == T.size() )
     {
         return true;
     }

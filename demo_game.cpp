@@ -4,16 +4,17 @@
 #include "API.h"
 
 
+
 class UpdateColliderObject: public qqq::Script
 {   
     public:
 
         void update()
-        {   
+        {   ////////////////////////////////////////
             qqq::Collider* collider = static_cast<qqq::Collider*>(owner->colliders[0]);
             int quantity_of_points = collider->getQuantityOfBodyPoints();
 
-            std::vector <std::vector<float>> absolute_hitbox_coordinates;
+            std::vector <std::vector<float>> new_absolute_hitbox_coordinates;
             std::vector <std::vector<float>> relative_hitbox_coordinates = collider->getRelativeHitboxCoordinates();
 
             float 
@@ -22,10 +23,23 @@ class UpdateColliderObject: public qqq::Script
 
             for(int i = 0 ; i < quantity_of_points ; ++i)
             {
-                absolute_hitbox_coordinates.push_back({ relative_hitbox_coordinates[i][0] + x , relative_hitbox_coordinates[i][1] + y });
+                new_absolute_hitbox_coordinates.push_back({ relative_hitbox_coordinates[i][0] + x , relative_hitbox_coordinates[i][1] + y });
             }
 
-            collider->setAbsoluteHitboxCoordinates(absolute_hitbox_coordinates);
+            collider->setNewAbsoluteHitboxCoordinates(new_absolute_hitbox_coordinates);
+            /////////////////////////////////////////
+            std::vector <std::vector<float>> old_absolute_hitbox_coordinates;
+
+            
+            x = owner->old_position[0],
+            y = owner->old_position[1];
+
+            for(int i = 0 ; i < quantity_of_points ; ++i)
+            {
+                old_absolute_hitbox_coordinates.push_back({ relative_hitbox_coordinates[i][0] + x , relative_hitbox_coordinates[i][1] + y });
+            }
+
+            collider->setOldAbsoluteHitboxCoordinates(old_absolute_hitbox_coordinates);
         }
 
 
@@ -43,17 +57,17 @@ public:
 
         for ( int i = 0 ; i < 2 ; ++i)
         {
-            if( owner->velocity[i] > 0 and owner->velocity[i] - resistance_of_field > 0  )
+            if( owner->new_velocity[i] > 0 and owner->new_velocity[i] - resistance_of_field > 0  )
             {
-                owner->velocity[i] -= resistance_of_field;
+                owner->new_velocity[i] -= resistance_of_field;
             }
-            else if( owner->velocity[i] < 0 and owner->velocity[i] + resistance_of_field < 0 )
+            else if( owner->new_velocity[i] < 0 and owner->new_velocity[i] + resistance_of_field < 0 )
             {
-                owner->velocity[i] += resistance_of_field;
+                owner->new_velocity[i] += resistance_of_field;
             }
             else
             {
-                owner->velocity[i] = 0;
+                owner->new_velocity[i] = 0;
             }
         }
     }
@@ -70,19 +84,19 @@ public:
         
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
         {
-            owner -> velocity[0] += a*dt;
+            owner -> new_velocity[0] += a*dt;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
         {
-            owner -> velocity[0] -= a*dt;
+            owner -> new_velocity[0] -= a*dt;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
         {
-            owner -> velocity[1] += a*dt;
+            owner -> new_velocity[1] += a*dt;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
         {
-            owner -> velocity[1] -= a*dt;
+            owner -> new_velocity[1] -= a*dt;
         }
 
         // у игровых обьектов менять можно только скорость!!!!!!!!!!!!!!!!!!!!!!!!!!1
@@ -109,7 +123,8 @@ public:
 class EnemyAI: public qqq::Script
 {
 public:
-    float speed = 10;
+    float a = 600;
+    float speed = 100;
     float cooldown = 0;
 
     void update()
@@ -128,8 +143,8 @@ public:
         rx /= distance;
         ry /= distance;
         
-        owner -> velocity[0] = rx * speed;
-        owner -> velocity[1] = ry * speed;
+        owner -> new_velocity[0] += rx * a * dt;
+        owner -> new_velocity[1] += ry * a * dt;
 
         cooldown -= dt;
     }
@@ -198,7 +213,13 @@ int main()
     player.getComponent<qqq::Renderer>()->createSprite();
 
     player.addComponent<qqq::Collider>();
-    player.getComponent<qqq::Collider>()->setHitboxRectangle(90,60);
+    player.getComponent<qqq::Collider>()->setBodyPointClockwise({0,0});
+    player.getComponent<qqq::Collider>()->setBodyPointClockwise({30,0});
+    player.getComponent<qqq::Collider>()->setBodyPointClockwise({60,45});
+    player.getComponent<qqq::Collider>()->setBodyPointClockwise({30,90});
+    player.getComponent<qqq::Collider>()->setBodyPointClockwise({15,45});
+
+    player.bouncy = false;
 
     player.addComponent<qqq::PolygonReflection>();
 

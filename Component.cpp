@@ -36,7 +36,6 @@ sf::Sprite* qqq::Renderer::getSprite()
 void qqq::Collider::setBodyPointClockwise( std::vector < float > point )
 {
     relative_hitbox_coordinates.push_back( point );
-    absolute_hitbox_coordinates.push_back({ point[0] + this -> owner -> position[0] , point[1] + this -> owner -> position[1] });
 }
 
 int qqq::Collider::getQuantityOfBodyPoints()
@@ -56,12 +55,33 @@ bool qqq::Collider::setHitboxRectangle(float height, float width)
     setBodyPointClockwise( { width*1 , height*1 } );
     setBodyPointClockwise( { width*0 , height*1 } );
 
+    int quantity_of_points = getQuantityOfBodyPoints();
+
+    std::vector <std::vector<float>> new_absolute_hitbox_coordinates;
+    std::vector <std::vector<float>> relative_hitbox_coordinates = getRelativeHitboxCoordinates();
+
+    float 
+    x = owner->position[0],
+    y = owner->position[1];
+
+    for(int i = 0 ; i < quantity_of_points ; ++i)
+    {
+        new_absolute_hitbox_coordinates.push_back({ relative_hitbox_coordinates[i][0] + x , relative_hitbox_coordinates[i][1] + y });
+    }
+
+    setNewAbsoluteHitboxCoordinates(new_absolute_hitbox_coordinates);
+
     return true;
 }
 
-std::vector< std::vector<float> > qqq::Collider::getAbsoluteHitboxCoordinates()
+std::vector< std::vector<float> > qqq::Collider::getNewAbsoluteHitboxCoordinates()
 {
-    return absolute_hitbox_coordinates;
+    return new_absolute_hitbox_coordinates;
+}
+
+std::vector< std::vector<float> > qqq::Collider::getOldAbsoluteHitboxCoordinates()
+{
+    return old_absolute_hitbox_coordinates;
 }
 
 std::vector< std::vector<float> > qqq::Collider::getRelativeHitboxCoordinates()
@@ -69,7 +89,12 @@ std::vector< std::vector<float> > qqq::Collider::getRelativeHitboxCoordinates()
     return relative_hitbox_coordinates;
 }
 
-void qqq::Collider::setAbsoluteHitboxCoordinates(std::vector< std::vector<float> > absolute_hitbox_coordinates)
+void qqq::Collider::setNewAbsoluteHitboxCoordinates(std::vector< std::vector<float> > new_absolute_hitbox_coordinates)
 {
-    this->absolute_hitbox_coordinates = absolute_hitbox_coordinates;
+    this->new_absolute_hitbox_coordinates = new_absolute_hitbox_coordinates;
+}
+
+void qqq::Collider::setOldAbsoluteHitboxCoordinates(std::vector< std::vector<float> > old_absolute_hitbox_coordinates)
+{
+    this->old_absolute_hitbox_coordinates = old_absolute_hitbox_coordinates;
 }

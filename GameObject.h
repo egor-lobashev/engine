@@ -15,7 +15,10 @@ class qqq::GameObject
 public:
     std::vector <float> position = {0,0};
     std::vector <float> old_position = {0,0};
-    std::vector <float> velocity = {0,0};
+    std::vector <float> new_velocity = {0,0};
+    std::vector <float> old_velocity = {0,0};
+    bool bouncy = true;
+
 
     bool dynamic = false;
     std::string id_in_data_storage;

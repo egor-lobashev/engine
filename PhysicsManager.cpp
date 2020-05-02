@@ -2,6 +2,55 @@
 #include "GameObject.h"
 #include <cmath>
 
+bool checkPointInPolygon( std::vector<float> point , std::vector< std::vector<float> > points_clockwise  )
+{
+    std::vector<float> vector;
+    std::vector<std::vector<float>> T = points_clockwise;
+
+    for(int i = 0 ; i < T.size() ; ++i)
+    {
+        if( i == T.size() - 1 )
+        {
+            float a = (T[0][0] - T[i][0])*(point[1] - T[i][1]) - (T[0][1] - T[i][1])*( point[0] - T[i][0] );
+            vector.push_back(a);
+
+        }
+        else
+        {   
+            float a = (T[i+1][0] - T[i][0])*(point[1] - T[i][1]) - (T[i+1][1] - T[i][1])*( point[0] - T[i][0] );
+            vector.push_back(a);
+
+        }
+    }
+    
+    int iter_plus = 0;
+    int iter_minus = 0;
+    for ( auto item : vector )
+    {   
+        if( item > 0 )
+        {
+            iter_plus ++ ;
+            
+        }
+        else if ( item < 0 )
+        {
+            iter_minus ++;
+            
+        }
+        
+    }
+    if(iter_plus == T.size())
+    {
+        return true;
+    }
+    else if (iter_minus == T.size() )
+    {
+        return true;
+    }
+    
+    return false;
+}
+
 float getMaxElement(const std::vector < float > vector)
 {
     float max = vector[0];
@@ -162,49 +211,74 @@ bool qqqP::PhysicsManager::checkForCollide( qqq::Collider* first , qqq::Collider
     //////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////
 
-    std::vector < std::vector < float > > absolute_points_coordinates_of_first_obj_clockwise;
-    std::vector < std::vector < float > > absolute_points_coordinates_of_second_obj_clockwise;
+    int quantity_points_firts = first->getQuantityOfBodyPoints();
+    int quantity_points_second = second->getQuantityOfBodyPoints();
 
-    int quantity_of_points_first = first ->  getQuantityOfBodyPoints();
-    int quantity_of_points_second = second -> getQuantityOfBodyPoints();
+    std::vector<std::vector<float>> first_hitbox = first->getNewAbsoluteHitboxCoordinates();
+    std::vector<std::vector<float>> second_hitbox = second->getNewAbsoluteHitboxCoordinates();
 
-    float x_coordinate_of_first = first -> owner -> position[0];
-    float y_coordinate_of_first = first -> owner -> position[1];
-
-    float x_coordinate_of_second = second -> owner -> position[0];
-    float y_coordinate_of_second = second -> owner -> position[1];
-
-    for ( int i = 0 ; i < quantity_of_points_first ; ++i)
+    for( int i = 0 ; i < quantity_points_firts ; ++i)
     {
-        float x_coordinate_of_point = first -> getPointByIndex(i)[0];
-        float y_coordinate_of_point = first -> getPointByIndex(i)[1];
-
-        absolute_points_coordinates_of_first_obj_clockwise.push_back( { x_coordinate_of_first + x_coordinate_of_point , y_coordinate_of_first + y_coordinate_of_point } );
+        if( checkPointInPolygon(first_hitbox[i], second_hitbox) )
+        {
+            return true;
+        }
     }
 
-    for ( int i = 0 ; i < quantity_of_points_second ; ++i)
+    for( int i = 0 ; i < quantity_points_second ; ++i)
     {
-        float x_coordinate_of_point = second -> getPointByIndex(i)[0];
-        float y_coordinate_of_point = second -> getPointByIndex(i)[1];
-
-        absolute_points_coordinates_of_second_obj_clockwise.push_back( { x_coordinate_of_second + x_coordinate_of_point , y_coordinate_of_second + y_coordinate_of_point } );
+        if( checkPointInPolygon(second_hitbox[i], first_hitbox) )
+        {
+            return true;
+        }
     }
 
-    //////////////////////////////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////////////////////////////////////////
+    return false;
 
-    bool this_objects_collided = true;
 
-    this_objects_collided = checkOneObject( absolute_points_coordinates_of_first_obj_clockwise,quantity_of_points_first , absolute_points_coordinates_of_second_obj_clockwise,quantity_of_points_second);
+    // std::vector < std::vector < float > > absolute_points_coordinates_of_first_obj_clockwise;
+    // std::vector < std::vector < float > > absolute_points_coordinates_of_second_obj_clockwise;
 
-    this_objects_collided = checkOneObject( absolute_points_coordinates_of_second_obj_clockwise,quantity_of_points_second , absolute_points_coordinates_of_first_obj_clockwise,quantity_of_points_first);
+    // int quantity_of_points_first = first ->  getQuantityOfBodyPoints();
+    // int quantity_of_points_second = second -> getQuantityOfBodyPoints();
 
-    return this_objects_collided;
+    // float x_coordinate_of_first = first -> owner -> position[0];
+    // float y_coordinate_of_first = first -> owner -> position[1];
+
+    // float x_coordinate_of_second = second -> owner -> position[0];
+    // float y_coordinate_of_second = second -> owner -> position[1];
+
+    // for ( int i = 0 ; i < quantity_of_points_first ; ++i)
+    // {
+    //     float x_coordinate_of_point = first -> getPointByIndex(i)[0];
+    //     float y_coordinate_of_point = first -> getPointByIndex(i)[1];
+
+    //     absolute_points_coordinates_of_first_obj_clockwise.push_back( { x_coordinate_of_first + x_coordinate_of_point , y_coordinate_of_first + y_coordinate_of_point } );
+    // }
+
+    // for ( int i = 0 ; i < quantity_of_points_second ; ++i)
+    // {
+    //     float x_coordinate_of_point = second -> getPointByIndex(i)[0];
+    //     float y_coordinate_of_point = second -> getPointByIndex(i)[1];
+
+    //     absolute_points_coordinates_of_second_obj_clockwise.push_back( { x_coordinate_of_second + x_coordinate_of_point , y_coordinate_of_second + y_coordinate_of_point } );
+    // }
+
+    // //////////////////////////////////////////////////////////////////////////////////////////////////
+    // //////////////////////////////////////////////////////////////////////////////////////////////////
+    // //////////////////////////////////////////////////////////////////////////////////////////////////
+
+    // bool this_objects_collided = true;
+
+    // this_objects_collided = checkOneObject( absolute_points_coordinates_of_first_obj_clockwise,quantity_of_points_first , absolute_points_coordinates_of_second_obj_clockwise,quantity_of_points_second);
+
+    // this_objects_collided = checkOneObject( absolute_points_coordinates_of_second_obj_clockwise,quantity_of_points_second , absolute_points_coordinates_of_first_obj_clockwise,quantity_of_points_first);
+
+    // return this_objects_collided;
 }
 
 void qqqP::PhysicsManager::checkAllCollisions()
-{
+{   
     for (int i = 0; i < collider_objects.size(); i++)
     {
         for (int j = 0; j < collider_objects.size(); j++)
@@ -212,17 +286,33 @@ void qqqP::PhysicsManager::checkAllCollisions()
             if (i > j)
             {
                 if(checkForCollide(collider_objects[i], collider_objects[j]))
-                {  
+                {   
+                    collider_objects[i]->owner->old_velocity = collider_objects[i]->owner->new_velocity;
+                    collider_objects[j]->owner->old_velocity = collider_objects[j]->owner->new_velocity;
+
+                    std::cout << "enemy has old velocity = "<<collider_objects[i]->owner->old_velocity[1]<<std::endl;
+                    std::cout << "player has old velocity = "<<collider_objects[j]->owner->old_velocity[1]<<std::endl;
+                    
+
+                    for (qqq::Component* script : collider_objects[j]->owner->scripts)       
+                    {
+                        static_cast<qqq::Script*>(script)->ifCollision(collider_objects[i]->owner);
+                    }
 
                     for (qqq::Component* script : collider_objects[i]->owner->scripts)       
                     {
                         static_cast<qqq::Script*>(script)->ifCollision(collider_objects[j]->owner);
                     }
 
-                    for (qqq::Component* script : collider_objects[j]->owner->scripts)       
-                    {
-                        static_cast<qqq::Script*>(script)->ifCollision(collider_objects[i]->owner);
-                    }
+                    
+                    std::cout << "enemy has new velocity = "<<collider_objects[i]->owner->new_velocity[1]<<std::endl;
+                    std::cout << "player has new velocity = "<<collider_objects[j]->owner->new_velocity[1]<<std::endl;
+                    
+                    std::cout << collider_objects[i]->owner->id_in_data_storage <<"have equal velocities?"<<(bool)(collider_objects[i]->owner->old_velocity==collider_objects[i]->owner->new_velocity)<<std::endl;
+                    std::cout << collider_objects[j]->owner->id_in_data_storage<<" have equal velocities?"<<(bool)(collider_objects[j]->owner->old_velocity==collider_objects[j]->owner->new_velocity)<<std::endl;
+                    
+                    
+                    
                     
                 }
             }
