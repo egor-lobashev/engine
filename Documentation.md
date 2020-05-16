@@ -56,6 +56,23 @@ We provide some common scripts
 ### BallReflection
 Add this components to objects that are moving by inertia.
 They will reflect when colliding with objects that have Collider and BallReflection components.
+### PolygonReflection
+Добавление этого компонента предоставляет возможность столкновения выпуклых многоугольников произвольных форм.
+Если Вы хотите, чтобы какой-то обьект не имел возможность сталкиваться, то присвойте значение его массы равным +INFINITY :
+
+player.mass = +INFINITY;
+
+Здесь стоит сделать важное замечание : обьекты имеющие вышеописанное значение массы не должны совершать движение. Иначе это приводит к некорректной работе программы.
+Используйте это, чтобы задать границы игрового окна или препятствия.К сожалению, наш движок не поддерживает столкновение обьектов разных масс.
+
+Чтобы использовать данный скрипт, достаточно добавить его в компоненты игрового обьекта следующим образом:
+
+player.addComponent<qqq::PolygonReflection>();
+
+Помимо этого, использование данного скрипта обязывает Вас добавить к данному обьекту следующую компоненту нижеописанным способом:
+
+player.addComponent<UpdateColliderObject>();
+
 ```
 ### ParticleSource
 the object will produce particles.
