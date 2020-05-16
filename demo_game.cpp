@@ -192,11 +192,13 @@ public:
             enemy -> addComponent<qqq::PolygonReflection>();
 
             enemy -> addComponent<Resistance>();
+
             
             enemy->position[0] = rand()%250;
             enemy->position[1] = rand()%250;
 
-            enemy->addComponent<EnemyAI>();
+            //enemy->addComponent<EnemyAI>();
+            enemy->mass = +INFINITY;
 
             enemy->record("enemy_" + std::to_string(enemy_number++));
         }
@@ -218,6 +220,7 @@ int main()
     player.getComponent<qqq::Collider>()->setBodyPointClockwise({60,45});
     player.getComponent<qqq::Collider>()->setBodyPointClockwise({30,90});
     player.getComponent<qqq::Collider>()->setBodyPointClockwise({15,45});
+    //player.getComponent<qqq::Collider>()->setHitboxRectangle(90,60);
 
     
 

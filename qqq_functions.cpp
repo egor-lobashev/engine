@@ -335,17 +335,19 @@ void qqq::PolygonReflection::update()
 
 void qqq::PolygonReflection::ifCollision(qqq::GameObject* another)
 {   
-    moveToOldPosition(owner);
-    if(owner->bouncy)
+    if(this->owner->mass == +INFINITY)
     {
-    
+        //moveToOldPosition(owner);
+    }
+    else
+    {
         qqq::Collider* owner_collider = static_cast<qqq::Collider*>(owner->colliders[0]);
         std::vector < std::vector <float> > new_absol_hit_coord_owner = owner_collider->getNewAbsoluteHitboxCoordinates();
 
 
         qqq::Collider* another_collider = static_cast<qqq::Collider*>(another->colliders[0]);
         std::vector < std::vector <float> > new_absol_hit_coord_other = another_collider->getNewAbsoluteHitboxCoordinates();
-    
+
         ////////////////////////////////////////////////////////////////////////////////
         // теперь нужно проверить пересечение всех приращений со сторонами хитбокса для обоих обьектов  ////
 
@@ -386,24 +388,27 @@ void qqq::PolygonReflection::ifCollision(qqq::GameObject* another)
             
         
 
+            float m2 = another->mass;
                 
-                
-
-            float tmp = V_csi_before_1_obj;
-            V_csi_before_1_obj = V_csi_before_2_obj;
-            V_csi_before_2_obj = tmp;
-
-            // теперь переходим к старым координатам
+            
+            if(m2 == +INFINITY)
+            {
+                V_csi_before_1_obj = (-1)*V_csi_before_1_obj + 2*V_csi_before_2_obj;
+            }
+            else
+            {
+                V_csi_before_1_obj = V_csi_before_2_obj ;
+            }
+            
+            moveToOldPosition(owner);
 
             double V_x_1_obj_after_hitting = cos * V_csi_before_1_obj - sin * V_eta_before_1_obj;
             double V_y_1_obj_after_hitting = sin * V_csi_before_1_obj + cos * V_eta_before_1_obj;
             
+
             owner -> new_velocity[0] = V_x_1_obj_after_hitting;
             owner -> new_velocity[1] = V_y_1_obj_after_hitting;
-            
-
-        }
-    }
-    
+        }   
+    }   
 }
 

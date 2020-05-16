@@ -17,7 +17,7 @@ public:
     std::vector <float> old_position = {0,0};
     std::vector <float> new_velocity = {0,0};
     std::vector <float> old_velocity = {0,0};
-    bool bouncy = true;
+    float mass = 1;
 
 
     bool dynamic = false;
