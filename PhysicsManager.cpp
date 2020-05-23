@@ -165,6 +165,7 @@ bool qqqP::PhysicsManager::addCollider(qqq::Component* new_collider){
     try
     {
         collider_objects.push_back(static_cast<qqq::Collider*>(new_collider));
+        new_collider->manager = 'p';
         return true;
     }
     catch(...)

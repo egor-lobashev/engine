@@ -173,7 +173,7 @@ public:
     {
         timer -= qqq::relativeTime();
         
-        if (timer < 0 and quantity_of_enemies == 0)
+        if (timer < 0)// and quantity_of_enemies == 0)
         {   
             quantity_of_enemies ++;
 
@@ -201,6 +201,9 @@ public:
             enemy->mass = +INFINITY;
 
             enemy->record("enemy_" + std::to_string(enemy_number++));
+
+            if (enemy_number > 1)
+                qqq::getObject("enemy_" + std::to_string(enemy_number - 2))->kostylDestructor();
         }
     }
 };
@@ -238,6 +241,8 @@ int main()
     player.getComponent<Health>()->health = 1;  
 
     player.record("player");
+
+    player.kostylDestructor();
     
 
     qqq::GameObject enemy_spawner;
