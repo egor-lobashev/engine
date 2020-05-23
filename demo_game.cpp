@@ -241,8 +241,6 @@ int main()
     player.getComponent<Health>()->health = 1;  
 
     player.record("player");
-
-    player.kostylDestructor();
     
 
     qqq::GameObject enemy_spawner;

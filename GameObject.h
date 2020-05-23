@@ -27,8 +27,9 @@ public:
 
     void kostylDestructor()
     {
-        for (qqq::Component* component : components)
+        for (int i = components.size()-1; i >= 0; i--)
         {
+            Component* component = components[i];
             std::cout << "    " << component->name << std::endl;
             deleteComponentByPointer(component);
             std::cout << "    deleted" << std::endl;
@@ -117,12 +118,13 @@ private:
     bool deleteComponentByPointer(qqq::Component* deliting_component)
     {
         qqqP::Singleton* singleton = qqqP::Singleton::getInstance();
+        std::cout << deliting_component->manager << std::endl;
 
         if (deliting_component->manager == 'g')  
         {
             singleton->graphics_manager.removeRenderer(deliting_component);
         }
-        else if (deliting_component->manager == 'c')
+        else if (deliting_component->manager == 'p')
         {
             singleton->physics_manager.removeCollider(deliting_component);
         }

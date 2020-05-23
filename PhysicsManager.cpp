@@ -175,17 +175,18 @@ bool qqqP::PhysicsManager::addCollider(qqq::Component* new_collider){
 }
 
 bool qqqP::PhysicsManager::removeCollider(qqq::Component* removing_collider){
-
+printf("I'm here\n");
     for(int i = 0 ; i < collider_objects.size() ; i++){
-
+        printf("I'm still here\n");
         if(collider_objects[i] == removing_collider)
         {
+            std::cout << "\n\n\n" << collider_objects.size() << "\n\n>\n";
             collider_objects.erase(collider_objects.begin() + i );
+            std::cout << collider_objects.size() << "\n\n\n";
             return true;
         }
-
-        return false;
     }
+    return false;
 }
 ////////////////////////////////////////////////////////////
 ///////////////// GETTING OBJECTS //////////////////////////
